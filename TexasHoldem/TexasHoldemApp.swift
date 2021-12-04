@@ -6,15 +6,22 @@
 //
 
 import SwiftUI
-
+ 
 @main
 struct TexasHoldemApp: App {
+    
+    @State var gameChoice:Int = 0
+    
     var body: some Scene {
+        
         WindowGroup {
-          //  ContentView()
-         //  SinglePlayer() // Single Player
-           MultiPlayer() // Multiplayer
-          //  MenuView()
+
+            if gameChoice == 0 {HomeView(gameChoice: $gameChoice)}
+            
+            else if gameChoice == 1 {ClassicGameView(exit: $gameChoice).transition(AnyTransition.opacity.animation(Animation.easeIn(duration: 1.0)))}
+            
+            else if gameChoice == 2 {TimeBankView(exit: $gameChoice).transition(AnyTransition.opacity.animation(Animation.easeIn(duration: 1.0))) }
+
         }
     }
 }

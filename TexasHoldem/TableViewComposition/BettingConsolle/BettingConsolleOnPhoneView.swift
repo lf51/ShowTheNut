@@ -2,77 +2,88 @@
 //  BettingConsolleOnPhoneView.swift
 //  TexasHoldem
 //
-//  Created by Calogero Friscia on 18/10/21.
+//  Created by Calogero Friscia on 01/12/21.
 //
 
 import SwiftUI
 
 struct BettingConsolleOnPhoneView: View {
     
+    var screenWidth:CGFloat
+    
     @ObservedObject var vm: AlgoritmoGioco
     @ObservedObject var ga: GameAction
     @ObservedObject var gl: GameLevel
     
-    var areFichesDisabled:Bool 
+    var areFichesDisabled:Bool
     
     var body: some View {
-        HStack {
+        
+        if vm.stepCount <= 2 {
             
-            Button {
+            OpenBettingConsolleOnPhoneView(vm: vm, ga: ga, gl: gl, areFichesDisabled: areFichesDisabled)
+            
+        } else {
+            
+            HStack {
                 
-                ga.cButton()
+                Button {
+                    
+                    ga.cButton()
+                    
+                } label: {
+                    
+                    ChipsView(value: .c,screenReduction: 0.15, areFichesDisabled: areFichesDisabled)
+                        .padding(.trailing)
+                                    }
                 
-            } label: {
-                ChipsView(value: .c,screenReduction: 0.15, areFichesDisabled: areFichesDisabled)
-                    .padding(.trailing)
+                if vm.stepCount <= 4 {
+                    
+                    Button {
+                        SoundManager.instance.playSound(sound: .allin)
+                        ga.allInButton(stepCount: vm.stepCount, blueRectangle: true)
+                        
+                    } label: {
+                        
+                        RoundedRectangle(cornerRadius: screenWidth * 0.01)
+                            .foregroundColor(Color.blue)
+                            .frame(width: screenWidth/4, height: screenWidth/8, alignment: .center)
+                            .shadow(color: .black,radius: areFichesDisabled ? 0.0 : 2.0)
+                            .opacity(areFichesDisabled ? 0.6 : 1.0)
+                            .overlay(Text("3x").bold().foregroundColor(Color.black),alignment: .center)
+                            .padding(.trailing)
+                }
+                } else {
+                    /*@START_MENU_TOKEN@*/EmptyView()/*@END_MENU_TOKEN@*/
+                }
+                
+                Button {
+                    SoundManager.instance.playSound(sound: .allin)
+                    ga.allInButton(stepCount: vm.stepCount, blueRectangle: false)
+                    
+                } label: {
+                    
+                    RoundedRectangle(cornerRadius: screenWidth * 0.01)
+                        .foregroundColor(Color.yellow)
+                        .frame(width: screenWidth/4, height: screenWidth/8, alignment: .center)
+                        .shadow(color: .black,radius: areFichesDisabled ? 0.0 : 2.0)
+                        .opacity(areFichesDisabled ? 0.6 : 1.0)
+                        .overlay(Text(vm.stepCount <= 4 ? "\(ga.betLimitOnFlop,specifier: "%.0f")x" : "\(ga.betLimitOnTurn,specifier: "%.1f")x").bold().foregroundColor(Color.black),alignment: .center)
+                        .padding(.trailing)
+                }
+                
+                
             }
             
-            Button {
-                SoundManager.instance.playSound(sound: .allin)
-                ga.allInButton(stepCount: vm.stepCount)
-                
-            } label: {
-                ChipsView(value: .all,screenReduction: 0.15, areFichesDisabled: areFichesDisabled)
-                    .padding(.trailing)
-            }
-            
-            Button {
-                SoundManager.instance.playSound(sound: .coindrop)
-                ga.betButton(bet: gl.smallBlindValue, stepCount: vm.stepCount)
-                
-                
-            } label: {
-                ChipsView(value: .small(value:gl.smallBlindValue),screenReduction: 0.15, areFichesDisabled: areFichesDisabled)
-                    .padding(.trailing)
-            }
-            
-            
-            Button {
-                SoundManager.instance.playSound(sound: .coindrop)
-                ga.betButton(bet: gl.bigBlindValue, stepCount: vm.stepCount)
-                
-            } label: {
-                ChipsView(value: .big(value:gl.bigBlindValue),screenReduction: 0.15, areFichesDisabled: areFichesDisabled)
-                    .padding(.trailing)
-            }
-            
-            Button {
-                SoundManager.instance.playSound(sound: .coindrop)
-                ga.betButton(bet: gl.middleValue, stepCount: vm.stepCount)
-                
-            } label: {
-                ChipsView(value: .middle(value:gl.middleValue),screenReduction: 0.15, areFichesDisabled: areFichesDisabled)
-                    .padding(.trailing)
-            }
-            
-            Button {
-                SoundManager.instance.playSound(sound: .coindrop)
-                ga.betButton(bet: gl.highValue, stepCount: vm.stepCount)
-                
-            } label: {
-                ChipsView(value: .high(value:gl.highValue),screenReduction: 0.15, areFichesDisabled: areFichesDisabled)
-            }
-         
         }
+        
+        
     }
 }
+
+/*
+struct BettingConsolleOnPhoneView_Previews: PreviewProvider {
+    static var previews: some View {
+        BettingConsolleOnPhoneView()
+    }
+}*/

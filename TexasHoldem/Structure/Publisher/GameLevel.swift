@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 import GameKit
 
-// dovrebbe in questa specifica fattispecie caricare tutti gli achievment allo step 0, ma non lo fa.
+// inserire il livello platinum o corallo da 20k al posto del black. Black diventa da 100k
 
 
 class GameLevel: ObservableObject {
@@ -61,7 +61,7 @@ class GameLevel: ObservableObject {
             }
     }
     
-    func unlockLevel(bankroll:Float,sitHighestTable:Bool,playerAuth:Bool) {
+   /* func unlockLevel(bankroll:Float,sitHighestTable:Bool,playerAuth:Bool) {
                  
         let tablesAvaibleAtBeginning:Int = self.tableLevel.count
         self.tableLevel = [.green] // ad ogni chiamata l'array viene svuotato e poi riempito nuovamente
@@ -159,6 +159,30 @@ class GameLevel: ObservableObject {
                     }
                 }
         }
+        
+        if money >= 100000 {
+                
+            self.tableLevel.insert(.iceBlack, at: 0)
+     
+        if playerAuth && !achievementsDone.contains("coral_005") { // vecchio id identificativo
+
+            let iceBlackTableAchievement:GKAchievement = {
+                
+                let achievement = GKAchievement(identifier: "coral_005")
+                achievement.percentComplete = 100.0
+                achievement.showsCompletionBanner = true
+                
+                return achievement
+            }()
+
+                GKAchievement.report([iceBlackTableAchievement]) { error in
+                        
+                        guard error == nil else {return}
+                        print("iceBlackTable salvato con successo")
+                    self.achievementsDone.append("coral_005")
+                    }
+                }
+        }
       
         if sitHighestTable {
             self.level = self.tableLevel[0]
@@ -182,7 +206,97 @@ class GameLevel: ObservableObject {
         
        // self.colorTable()
         print("unlock Level called")
-    }
+    } */ // old Version sostituita per usare un function Builder
+    
+    @AchievementManager
+    func achievementAccomplished(id:String) {id}
+    
+    func unlockLevel(bankroll:Float,sitHighestTable:Bool,playerAuth:Bool) {
+                  
+         let tablesAvaibleAtBeginning:Int = self.tableLevel.count
+         self.tableLevel = [.green] // ad ogni chiamata l'array viene svuotato e poi riempito nuovamente
+         let money = bankroll
+         
+         if money >= 1000 {
+                 
+                 self.tableLevel.insert(.red, at: 0)
+      
+         if playerAuth && !achievementsDone.contains("red_001") {
+                     
+            achievementAccomplished(id: "red_001")
+             
+                 }
+         }
+         
+         if money >= 2000 {
+                 
+                 self.tableLevel.insert(.blue, at: 0)
+      
+         if playerAuth && !achievementsDone.contains("blue_002") {
+                     
+             achievementAccomplished(id: "blue_002")
+             
+                 }
+         }
+         
+         if money >= 6000 {
+                 
+                 self.tableLevel.insert(.gold, at: 0)
+      
+         if playerAuth && !achievementsDone.contains("gold_003") {
+             
+            achievementAccomplished(id: "gold_003")
+             
+                 }
+         }
+         
+         if money >= 20000 {
+                 
+                 self.tableLevel.insert(.black, at: 0)
+      
+         if playerAuth && !achievementsDone.contains("black_004") {
+
+           achievementAccomplished(id: "black_004")
+             
+                 }
+         }
+         
+         if money >= 100000 {
+                 
+             self.tableLevel.insert(.iceBlack, at: 0)
+      
+         if playerAuth && !achievementsDone.contains("coral_005") { // vecchio id identificativo
+
+            achievementAccomplished(id: "coral_005")
+             
+                 }
+         }
+       
+         if sitHighestTable {
+             self.level = self.tableLevel[0]
+             self.colorTable()
+         } // lavora solo all'apertura del gioco. Viene impostato su true in stepCount == 0. I seguenti lavorano su stepcount == 9.
+         
+      //  else if tableAvaible == self.tableLevel.count {}// resta il tavolo preselezionato}
+         
+         else if tablesAvaibleAtBeginning < self.tableLevel.count {
+             self.level = self.tableLevel[0]
+             self.colorTable()
+         } //vuol dire che c'è stato un avanzamento
+         
+         else if tablesAvaibleAtBeginning > self.tableLevel.count {
+            
+            if !tableLevel.contains(level) {
+                self.level = self.tableLevel[0]
+                self.colorTable()
+            } // c'è stato un arretramento, il tavolo viene cambiato solo se il giocatore stava giocando al tavolo non più disponibile.
+        }
+         
+        // self.colorTable()
+         print("unlock Level called")
+     }
+    
+    
     
     func moveLevel(forward:Bool) {
         
@@ -254,6 +368,13 @@ class GameLevel: ObservableObject {
             self.middleValue = "500"
             self.highValue = "1000"
      
+        case .iceBlack:
+            self.tableColor = CGColor(red: 0.17, green: 0.17, blue: 0.17, alpha: 1)
+            self.smallBlindValue = "250"
+            self.bigBlindValue = "500"
+            self.middleValue = "2500"
+            self.highValue = "5000"
+         
         }
 
     }

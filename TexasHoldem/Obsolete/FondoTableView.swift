@@ -20,7 +20,9 @@ struct FondoTableView: View {
      // Color(#colorLiteral(red: 0, green: 0.5603182912, blue: 0, alpha: 1)).ignoresSafeArea()
             
             
-      Color(CGColor(red: 0.6, green: 0.6, blue: 0, alpha: 1)).ignoresSafeArea()
+            Color(CGColor(red: 0, green: 0, blue: 0, alpha: 1)).ignoresSafeArea().opacity(0.8)
+            
+            
             
       //  Color(CGColor(red: 0, green: 0.5603182912, blue: 0, alpha: 1)).ignoresSafeArea()
             
@@ -31,11 +33,11 @@ struct FondoTableView: View {
      // Color(CGColor(red: 0.07, green: 0.07, blue: 0.07, alpha: 1))
 
             
-       Image("logo")
+      /* Image("logo")
                 .resizable()
                 .scaledToFit()
                 .frame(width: 200, height: 200, alignment: .center)
-                .opacity(0.05)
+                .opacity(0.05) */
             
           //  Rectangle().cornerRadius(170.0).padding().foregroundColor(Color(#colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)))
             

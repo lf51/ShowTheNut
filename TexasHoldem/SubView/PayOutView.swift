@@ -19,7 +19,7 @@ struct PayOutView: View {
          
             if idiomDevice == .phone {
                 
-                Text("\(ga.payOutRate, specifier: "%.1f")x")
+                Text("\(ga.payOutAmplificator, specifier: "%.1f")x")
                      .font(.system(size:(screenWidth * 0.05), weight: .bold, design: .monospaced))
                      .frame(width: (screenWidth / 5.0), height: (rectangleHeight / 3.5), alignment: .center)
                      .foregroundColor(Color.white)
@@ -29,7 +29,7 @@ struct PayOutView: View {
                 
             } else {
                 
-                Text("\(ga.payOutRate, specifier: "%.1f")x")
+                Text("\(ga.payOutAmplificator, specifier: "%.1f")x")
                      .font(.system(size:(screenWidth * 0.02), weight: .bold, design: .monospaced))
                      .frame(width: (screenWidth / 14), height: (rectangleHeight / 2.5), alignment: .center)
                      .foregroundColor(Color.white)

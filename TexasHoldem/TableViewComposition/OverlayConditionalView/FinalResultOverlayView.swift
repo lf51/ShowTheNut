@@ -123,7 +123,7 @@ struct FinalResultOverlayView: View {
                         
                         Text(vm.playerWin ? "+" : "-").bold().font(.system(size: sizing.fontSizePlayerWin)).foregroundColor(vm.playerWin ? Color.green : Color.red)
              
-                        Text("\(ga.moneyWinOrLoose,specifier:"%.2f")")
+                        Text("\(ga.moneyWinOrLoose,specifier:"%.2f")") // corrisponde allo Score nel TimeBank
                        
                     }//.padding(.top,1.0)
                     
@@ -133,12 +133,12 @@ struct FinalResultOverlayView: View {
                         
                         vm.stepCount = 0
                         gl.temporaryLockTransitionLevel = false 
-                        if ga.isPayOutAmplificatorLocked {ga.reBuy()} // usiamo il ga.isPayOutAmplificatorLocked perchè è un booleano che ritorna true quando il bankroll è uguale a zero
+                        if ga.isPlayerInAllIn {ga.reBuy()} // usiamo il ga.isPayOutAmplificatorLocked perchè è un booleano che ritorna true quando il bankroll è uguale a zero
                         
                     } label: {
-                        Text(!ga.isPayOutAmplificatorLocked ? "Play Again" : "ReBuy")
+                        Text(!ga.isPlayerInAllIn ? "Play Again" : "ReBuy")
                             .padding()
-                            .background(!ga.isPayOutAmplificatorLocked ? Color.yellow : Color.red)
+                            .background(!ga.isPlayerInAllIn ? Color.yellow : Color.red)
                             .cornerRadius(sizing.cornerRadiusPlayAgain)
                     }
 

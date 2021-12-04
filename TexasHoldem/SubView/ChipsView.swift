@@ -35,11 +35,16 @@ struct ChipsView: View {
             
         case .high(let coinValue):
             
-            return (Color.black,Color.blue,Color.white,coinValue == "1000" ? "1k" : coinValue)
+            let normalizedCoinValue:String
+            if coinValue == "1000" {normalizedCoinValue = "1k"}
+            else if coinValue == "5000" {normalizedCoinValue = "5k"}
+            else {normalizedCoinValue = coinValue}
+            
+            return (Color.black,Color.blue,Color.white,normalizedCoinValue)
          
         case .middle(let coinValue):
             
-            return (Color.red,Color.green,Color.white,coinValue)
+            return (Color.red,Color.green,Color.white,coinValue == "2500" ? "2.5k" : coinValue)
         
         case .big(let coinValue):
             
@@ -70,7 +75,7 @@ struct ChipsView: View {
                     Circle()
                           .foregroundColor(sfondo)
                           .frame(width: fichesWidth, height: fichesWidth, alignment: .center)
-                          .shadow(color: .black, radius: 1.0)
+                          .shadow(color: .black, radius: areFichesDisabled ? 0.0 : 2.0)
                           .zIndex(0.0)
                       
                     RoundedRectangle(cornerRadius: fichesWidth)
@@ -95,12 +100,12 @@ struct ChipsView: View {
                         Text("\(chipValue)")
                             .bold()
                             .foregroundColor(Color.black)
-                            .opacity(areFichesDisabled ? 0.2 : 1.0)
+                           // .opacity(areFichesDisabled ? 0.2 : 1.0)
                             .lineLimit(1)
                             .minimumScaleFactor(0.1)
             
                     )
-            }
+            }.opacity(areFichesDisabled ? 0.6 : 1.0)
     }
 }
 /*
