@@ -158,6 +158,7 @@ struct TimeBankView: View {
                          
                     RulesOverlayViewTB(idiomDevice:idiomDevice,screenWidth:screenWidth, dismiss: $showRules) }
                 
+                else if ga.isLoading {CustomLoadingView() }
                 // if vm.stepCount == 9
                     FinalResultOverlayViewTB(vm:vm,ga:ga,idiomDevice: idiomDevice)
                 //

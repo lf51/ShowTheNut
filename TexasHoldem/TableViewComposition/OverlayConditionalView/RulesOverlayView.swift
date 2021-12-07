@@ -48,9 +48,9 @@ struct RulesOverlayView: View {
             VStack {
                 
                 if languages[0].contains("it") {ItalianRulesView(fontSize: fontSize)}
-                else if languages[0].contains("fr") {FrenchRulesView()}
+               /* else if languages[0].contains("fr") {FrenchRulesView()}
                 else if languages[0].contains("zh") {ChinaRulesView()}
-                else if languages[0].contains("es") {SpanishRulesView()}
+                else if languages[0].contains("es") {SpanishRulesView()}*/
                 else {EnglishRulesView(fontSize: fontSize)}
               
                 Button {

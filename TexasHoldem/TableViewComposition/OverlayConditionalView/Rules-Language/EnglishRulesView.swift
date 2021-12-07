@@ -27,7 +27,7 @@ struct EnglishRulesView: View {
                 .font(.system(size: fontSize * 1.2, weight: .bold, design: .monospaced))
                 .foregroundColor(Color.purple)
             
-            Text("• Pre-Flop: \nthe player open the game with a no limits bet;\nif the Opening Bet is All-in, the win multiplier is Double.\n\n• Flop:\nthe player chooses the pocket cards. Bet is 5x Opening Bet limited.\n\n• Turn:\nthe player can change one of the pocket cards (half win multiplier). Bet is 3x Opening Bet limited.\n\n• River:\nthe player wins if he finally gets the nut, the highest possible hand.\n\n\nWin multiplier:\n• Standard -> 3x Pot\n• Double -> 6x Pot\n• Half -> 1.5x Pot")
+            Text("• Pre-Flop: \nthe player open the game with a no limits bet;\nif the Opening Bet is All-in, the win multiplier is Double.\n\n• Flop:\nthe player chooses the pocket cards. Bet is 3x or 5x Opening Bet limited.\n\n• Turn:\nbet is 2x Opening Bet limited. The player can change one of the pocket cards, in this case the win multiplier change too, and the bet is 0.5x Opening Bet limited.\n\n• River:\nthe player wins if he finally gets the nut, the highest possible hand.\n\n\nWin multiplier:\n• Standard -> 2x Pot\n")
 
             Spacer()
             

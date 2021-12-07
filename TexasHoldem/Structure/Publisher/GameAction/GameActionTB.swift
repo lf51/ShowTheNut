@@ -30,7 +30,7 @@ class GameActionTB: GameAction {
             leaderBoards?[0].loadEntries(for: [localPlayer], timeScope: GKLeaderboard.TimeScope.allTime) { player, _, error in
 
                    guard error == nil else {return}
-                   
+                
                    if player?.score != nil {
                        
                        print("player score != nil")

@@ -164,14 +164,22 @@ struct ClassicGameView: View {
            
             if vm.stepCount == 0 {
                 
-                if GameAction.localPlayerAuth { gl.loadAchievementDone() }
-                gl.unlockLevel(bankroll: newValue, sitHighestTable: true, playerAuth: GameAction.localPlayerAuth)}
+                if GameAction.localPlayerAuth {
+                    
+                gl.loadAchievementDone() 
+                
+            }
+                gl.unlockLevel(bankroll: newValue, sitHighestTable: true, playerAuth: GameAction.localPlayerAuth) // questa chiamata avviene in apertura, in seguito infatti il cambio nel valore del bankroll avviene in step 9. Le chiamate seguenti sono gestite dal prox onChange, poichè dobbiamo disattivare il sit sul tavolo più alto in automatico
+            }
 
         })// questo metodo viene chiamato in apertura, non appena viene aggiornato il bankroll dalla leaderboard. Porta il giocatore direttamente al tavolo più alto disponibile
         
         .onChange(of: ga.hands, perform: { _ in
             
-            gl.unlockLevel(bankroll: ga.bankroll, sitHighestTable: false, playerAuth: GameAction.localPlayerAuth)
+            if vm.stepCount != 0 {
+                gl.unlockLevel(bankroll: ga.bankroll, sitHighestTable: false, playerAuth: GameAction.localPlayerAuth)
+            }
+            
         }) // Quando termina il round, cambia il conto delle mani, viene chiamato questo metodo che aggiorna i livelli. Comprende dove far sedere il giocatore in base al livello precedentemente scelto dal giocatore.
         
         .overlay(
@@ -183,6 +191,8 @@ struct ClassicGameView: View {
                 else if showRules {
                          
                     RulesOverlayView(idiomDevice:idiomDevice,screenWidth:screenWidth, dismiss: $showRules) }
+                
+                else if ga.isLoading {CustomLoadingView() }
                 
                     FinalResultOverlayView(vm:vm,ga:ga, gl: gl,idiomDevice: idiomDevice)
                 

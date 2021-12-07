@@ -17,6 +17,7 @@ struct TimeBankSelectionView: View {
     @State var scaleDimension: CGFloat = 1.0
     @State var rotationAngle: Double = -2.0
     // end Animation
+    var isPremium:Bool
     
     var body: some View {
         
@@ -37,19 +38,40 @@ struct TimeBankSelectionView: View {
                 .opacity(0.2)
                 .edgesIgnoringSafeArea(.bottom)
             
-            Text("TimeBank 60'")
-                .font(.system(size: screenWidth * 0.10, weight: .bold, design: .monospaced))
+            VStack {
+  
+                Text("TimeBank 60'")
+                    .font(.system(size: screenWidth * 0.10, weight: .bold, design: .monospaced))
+                    .foregroundColor(Color(CGColor(red: 1, green: 1, blue: 1, alpha: 1)))
+                    .scaleEffect(scaleDimension)
+                    .rotationEffect(.degrees(rotationAngle))
+                    .padding(.top, screenWidth / 2)
+                
+                HStack {
+                    Image(systemName: isPremium ? "lock.open" : "lock")
+                    Text("0/5 left")
+                }
+                .font(.system(size: screenWidth * 0.05, weight: .bold, design: .monospaced))
                 .foregroundColor(Color(CGColor(red: 1, green: 1, blue: 1, alpha: 1)))
-                .scaleEffect(scaleDimension)
-                .rotationEffect(.degrees(rotationAngle))
-                .padding(.top, screenWidth / 2)
+               // .padding(.top, screenWidth / 2)
+            }
             
         }.onReceive(timer) { _ in
             
             withAnimation(.easeInOut(duration: 0.5)) {
                 
-                scaleDimension = scaleDimension == 1.0 ? 0.9 : scaleDimension + 0.1
-                rotationAngle = rotationAngle == -2 ? 2.0 : rotationAngle - 4.0
+                if isPremium {
+                    
+                    scaleDimension = scaleDimension == 1.0 ? 0.9 : scaleDimension + 0.1
+                    rotationAngle = rotationAngle == -2 ? 2.0 : rotationAngle - 4.0
+                
+                } else {
+                    
+                    scaleDimension = 1.0
+                    rotationAngle = 0.0
+                    
+                }
+                
             }
         }
     }

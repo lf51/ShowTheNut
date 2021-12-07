@@ -7,12 +7,28 @@
 
 import SwiftUI
 
+/*
+ 
+ !!! TERMINATO 04.12.2021
+ Verificare nel debug la consecuzio dei metodi attraverso i print e operare una prima/veloce pulizia del codice
+ 
+ Errore che non ci spieghiamo(Appare solo quando entriamo in Classic -- sia primo accesso che secondario--- non appare in TimeBank -- ne in primo accesso ne in secondo --):
+ 
+ 2021-12-04 17:48:06.350967+0100 TexasHoldem[37328:12095702] [Error] No platform string for specified GKGamePlatform value (0), defaulting to iOS.
+
+ - Modificare le Rules --> √ Fatto
+ 
+ 
+ */
+
+
 struct HomeView: View {
     
     var screenWidth:CGFloat = UIScreen.main.bounds.width
     var screenHeight:CGFloat = UIScreen.main.bounds.height
     
     @Binding var gameChoice: Int
+    @State private var isPremium:Bool = true
     
     var body: some View {
      
@@ -35,8 +51,8 @@ struct HomeView: View {
                     self.gameChoice = 2
                     
                 } label: {
-                    TimeBankSelectionView(screenWidth: screenWidth, screenHeight: screenHeight)
-                }
+                    TimeBankSelectionView(screenWidth: screenWidth, screenHeight: screenHeight, isPremium: isPremium)
+                }.disabled(!isPremium)
      
             }
             

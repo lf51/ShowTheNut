@@ -121,6 +121,7 @@ struct ButtonConsolleView: View {
                     vm.stepCount = 5
                     ga.payOutAmplificator = ga.isPlayerInAllIn ? 2.0 : 1.5
                     ga.betLimitOnTurn /= 4
+                    ga.bet = 0
             
                 },
                        label: {

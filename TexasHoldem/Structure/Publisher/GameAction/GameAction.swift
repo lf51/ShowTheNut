@@ -100,10 +100,13 @@ class GameAction: ObservableObject {
     
     // LeaderBoard GameKit / BankRoll - Hands - Win Rate - Rebuy - Importiamo l'ultimo valore salvato nella leaderBoard.
     
+    @Published var isLoading:Bool = false // ci serve a gestire le attese iniziali di autenticazione
+    
     func authenticateUser() {
 
         print("localPlayer isAuth: \(GKLocalPlayer.local.isAuthenticated.description)")
-
+        self.isLoading = true 
+        
         GKLocalPlayer.local.authenticateHandler = {vc, error in
              
              print("INSIDE AUTHENTICATEHANDLER")
@@ -113,14 +116,14 @@ class GameAction: ObservableObject {
                  self.defaultBankroll()
                  GameAction.authFailed = true
                  print("Error != nil -> is Player locale autenticato: \(GKLocalPlayer.local.isAuthenticated.description) - bankroll to \(self.bankroll) ")
-                 
+                 self.isLoading = false 
                  print(error?.localizedDescription ?? "")
                  return
              }
             
             GameAction.localPlayerAuth = true
             self.ifLocalPlayerIsAuth()
-
+            self.isLoading = false
             print("\(GKLocalPlayer.local.displayName) - isAuth: \(GKLocalPlayer.local.isAuthenticated.description)")
             print("dentro if localPlayer.isAuth")
          }
@@ -128,7 +131,7 @@ class GameAction: ObservableObject {
     
     func ifLocalPlayerIsAuth() {
         
-        print("ifLocalPlayerIsAuth")
+        print("inside method ifLocalPlayerIsAuth")
        
         self.showAccessPoint(isActive: true)
         self.updateScores()
@@ -197,6 +200,15 @@ class GameAction: ObservableObject {
            
         let localPlayer = GKLocalPlayer.local
         
+        localPlayer.setDefaultLeaderboardIdentifier("001_bankroll") { error in
+            
+            guard error == nil else {
+                print("error in setting LeaderBoard: \(error.debugDescription)")
+                return}
+            
+            print("Nuova leaderboard di Default")
+        }
+        
         GKLeaderboard.loadLeaderboards(IDs: ["001_bankroll","004_winRate","002_hands","003_rebuy"]) { leaderBoards, _ in
             
             // load Bankroll
@@ -214,7 +226,7 @@ class GameAction: ObservableObject {
                        let importedScore = player?.score
                        self.hands = Float(importedScore!)
 
-                       //   print("ComplitionHandler_02")
+                       print("hands:\(self.hands) uploaded")
                    
                    }
                }
@@ -231,7 +243,7 @@ class GameAction: ObservableObject {
                     let importedScore = player?.score
                     self.rebuyCount = Float(importedScore!)
               
-                 //   print("ComplitionHandler_02")
+                    print("rebuyCount:\(self.rebuyCount) uploaded")
                 
                 }
             }
@@ -239,6 +251,24 @@ class GameAction: ObservableObject {
             // load Win Rate / bankroll // gli diamo uno stacco con il Dispatch perchè altrimenti si accavallano e non fa in tempo ad aggiornare le hands e i rebuy.
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                
+                leaderBoards?[1].loadEntries(for: [localPlayer], timeScope: GKLeaderboard.TimeScope.allTime) { player, _, error in
+         
+                     guard error == nil else {return}
+                     
+                     if player?.score != nil {
+                         
+                         let importedScore = player?.score
+                         let floatScore = Float(importedScore!)
+                      //   print("Float score: \(floatScore)")
+                         let ultimateScore = floatScore / 10000
+                         print("mani totali dentro complationHandler [1]:\(self.hands)")
+                         self.maniVinte = self.hands * ultimateScore
+                         
+                         print("maniVinte:\(self.maniVinte) uploaded")
+                     
+                     }
+                 }
                 
             leaderBoards?[0].loadEntries(for: [localPlayer], timeScope: GKLeaderboard.TimeScope.allTime) { player, _, error in
                     
@@ -268,28 +298,12 @@ class GameAction: ObservableObject {
                                 self.saveScores()
                             }
                         }
-                      //  print("player?.score != nil e equal to")
+                      print("bankroll:\(self.bankroll) uploaded")
                     
                     } // else {self.bankroll = 200 }
                 }
                 
-                leaderBoards?[1].loadEntries(for: [localPlayer], timeScope: GKLeaderboard.TimeScope.allTime) { player, _, error in
-         
-                     guard error == nil else {return}
-                     
-                     if player?.score != nil {
-                         
-                         let importedScore = player?.score
-                         let floatScore = Float(importedScore!)
-                      //   print("Float score: \(floatScore)")
-                         let ultimateScore = floatScore / 10000
-                         print("mani totali dentro complationHandler [1]:\(self.hands)")
-                         self.maniVinte = self.hands * ultimateScore
-                         
-                      //   print("ComplitionHandler_02")
-                     
-                     }
-                 }
+                
             }
         }
     }
