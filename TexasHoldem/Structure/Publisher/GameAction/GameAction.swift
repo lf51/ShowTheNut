@@ -8,6 +8,7 @@
 import Foundation
 import GameKit
 import SwiftUI
+import Firebase
 
 class GameAction: ObservableObject {
     // TimeBankGA --> Abbiamo messo le proprietà e i metodi qui e non nella sottoclasse di appartenenza perchè quando chiamiamo i suddetti metodi e proprietà nelle view ci ritorna un errore. Nelle view noi usiamo la superclasse, e poi in base al gioco che si utilizza passiamo o la superclasse o la sottoclasse. Nei casi in cui passiamo la sottoclasse, i metodi e le proprietà richiamate non vengono trovate nella sottoclasse a meno di questo escamotage. Esempio: in una view condivise fra i due giochi dobbiamo accedere (esempio) a countdown. Usereme -- ga.countdown -- ga è definita nella view come una GameAction property. Dunque accederemo al countdown in entrambi i casi, sia qualora fossimo nel gioco classico che nel timebank. Ma il countdown ci serve solo per il gioco a tempo. Se spostiamo questa proprietà nella sottoclasse, nella view ricaviamo un errore perchè la ga.countdown non verrebbe più trovata in quanto il sistema accede alla superclasse. Dovremmo inizializzare la ga nella view come una GameActionTB, ma poi avremmo problemi con la Classic. Questo problema è molto probabilmente superato con protocolli e strutture, ma qui non possiamo provarlo perchè ci servono come Observer.
@@ -36,6 +37,10 @@ class GameAction: ObservableObject {
     @Published var maniVinte:Float = 0.0 // qui contiamo le mani vinte // il valore lo importiamo dalla leaderBoard, ricavandolo dal WinRate salvato. Questo perchè il win rate qui è una computed, la maniVintePercent, il che, per ovviare all'impostazione di un setter, ricalcoliamo andando ad estrapolare questo valore e ricombinandolo con le maniGiocate (Hands), anch'esso un valore salvato nella leaderBoard. Valutiamo l'impostazione del setter in maniVintePercent
     
     @Published var rebuyCount:Float = 0.0 // Nel gioco classico stocca il numero di rebuy, nel gioco a tempo stocca il miglior Punteggio
+    
+    // STATIC
+    static var roundTBcount:Int = 0 // conta i round di gioco TB
+    static var isTBPremium:Bool = false 
     static var localPlayerAuth:Bool = false
     static var authFailed:Bool = false // qualora l'autenticazione fallisce, nei secondi ingressi l'autanticationHandler non parte e allora usiamo questo bool per ricaricare i valori.
     
@@ -57,15 +62,23 @@ class GameAction: ObservableObject {
             self.authenticateUser() }
     }
     
-  /*  deinit {
+   /* deinit {
         print("in deinit is LocalPlayerAuth: \(GKLocalPlayer.local.isAuthenticated.description)")
-        print("deinit GameAction SuperClass") } */
+        print("deinit GameAction SuperClass")
+        saveOnFirebase()
+        
+    }*/
 
     @Published var pot:Float = 0.0
     @Published var bet: Float = 0.0
       
   //  var folds: Float {(maniPerseFoldate / hands) * 100} // tolta, vedi maniPerseFoldate
-    var maniVintePercent: Float {(maniVinte / hands) * 100} // qui rendiamo in termini percentuali le mani vinte sulle mani totali
+    var maniVintePercent: Float {
+        let firstStep = ((maniVinte / hands) * 10000).rounded() //prendiamo le prime 4 cifre dopo lo zero e creiamo un intero arrotondato
+        return firstStep / 100
+        
+        
+    } // qui rendiamo in termini percentuali le mani vinte sulle mani totali
     
   // var maniPerseFoldate:Float = 0.0 // tolta perchè non serve. Basta cononoscere la percentuale di mani Vinte
     
@@ -197,6 +210,12 @@ class GameAction: ObservableObject {
     }
     
     func updateScores() {
+        
+        self.updateScoresFromGameKit()
+        self.updateScoresFromFirebase()
+    }
+    
+   /* func updateScoresFromGameKit() {
            
         let localPlayer = GKLocalPlayer.local
         
@@ -208,9 +227,11 @@ class GameAction: ObservableObject {
             
             print("Nuova leaderboard di Default")
         }
+
         
         GKLeaderboard.loadLeaderboards(IDs: ["001_bankroll","004_winRate","002_hands","003_rebuy"]) { leaderBoards, _ in
-            
+ 
+        
             // load Bankroll
            // print("Leaderboard n°:\(leaderBoards?.count) - [0]: \(leaderBoards?[0].title)- [1]: \(leaderBoards?[1].title)- [2]: \(leaderBoards?[2].title)- [3]: \(leaderBoards?[3].title)")
     
@@ -306,12 +327,111 @@ class GameAction: ObservableObject {
                 
             }
         }
+    } // Abolita con la v.1 bundle 10 */
+    
+    func updateScoresFromGameKit() {
+           
+        let localPlayer = GKLocalPlayer.local
+        
+        localPlayer.setDefaultLeaderboardIdentifier("001_bankroll") { error in
+            
+            guard error == nil else {
+                print("error in setting LeaderBoard: \(error.debugDescription)")
+                return}
+            
+            print("Nuova leaderboard di Default")
+        }
+
+        
+        GKLeaderboard.loadLeaderboards(IDs: ["001_bankroll"]) { leaderBoards, _ in
+
+        leaderBoards?[0].loadEntries(for: [localPlayer], timeScope: GKLeaderboard.TimeScope.allTime) { player, _, error in
+
+                    guard error == nil else {
+                        
+                        self.bankroll = 200
+                        print("Probabile prima autenticazione")
+                        return
+                        
+                    }
+                    
+                    if player?.score != nil {
+                        
+                        let importedScore = player?.score
+                        let floatScore = Float(importedScore!)
+                        let ultimateScore = floatScore / 100
+                        
+                        self.bankroll = (ultimateScore + 200) + (self.rebuyCount * 200) // perchè salviamo il netto per la classifica
+                        
+                        if self.bankroll == 0 {
+                            
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                                self.bankroll = 200
+                                self.rebuyCount += 1
+                                self.saveScores()
+                            }
+                        }
+                      print("bankroll:\(self.bankroll) uploaded")
+                    
+                    } // else {self.bankroll = 200 }
+                }
+                
+        }
     }
+    
+    
+    func updateScoresFromFirebase() {
+        
+        let db = Firestore.firestore()
+        
+        let uniqueId = GKLocalPlayer.local.gamePlayerID
+            
+                db.collection("ShowTheNutData").document("\(uniqueId)").getDocument { document, error in
+                
+                guard error == nil else {return}
+                
+                if document?.exists == true {
+                    
+                    print("Id Documento(must be equal to identifierForVendor):\(document?.documentID ?? "")")
+                    // il bankroll continuiamo a prenderlo dal GameCenter ma lo salviamo anche sul Firebase come valore lordo
+                    
+                    self.rebuyCount = document?.get("rebuy") as! Float
+                    self.hands = document?.get("hands") as! Float
+                    self.maniVinte = document?.get("victories") as! Float
+                    
+                    print("Score update from Firebase")
+                    
+                } else {
+                    
+                    print("Probabile primo Accesso. Player Non Ancora in DataBase")
+                    
+                    // inserire il valore del bankroll di 200 nel caso in cui è primo ingresso ed è autenticato con GameCenter. Actually not necessary. Perchè se si logga con GK e non ha score salvati, già è predisposto il default.
+                    
+                }
+                
+                }
+   
+        
+// Abbiamo lasciato il load del bankroll dal gameKit semplicemente per non riscrivere tutto l'ambaradan necessario. In seguito potremmo spostarlo sul firebase anche per un codice più pulito. Sul firebase cmq già lo salviamo al lordo di rebuy e posta iniziale.
+    }
+    
     
     func saveScores() {
         
+        guard GameAction.localPlayerAuth else {
+            print("PlayerNonAutenticato")
+            return
+        }
+        
+        saveScoresOnGameKit()
+        saveScoreOnFirebase()
+      
+    }
+    
+    func saveScoresOnGameKit() {
+        
         // Win Series Classic Game
-        self.saveWinSeries(idLeaderBoard: "006_winSeriesClassic")
+       // self.saveWinSeries(idLeaderBoard: "006_winSeriesClassic")
         
         // LeaderBoard Bankroll
         let netBankroll = (self.bankroll - 200) - (200 * self.rebuyCount) // sottraiamo al bankroll la posta iniziale e poi 200 per ogni rebuy
@@ -337,7 +457,7 @@ class GameAction: ObservableObject {
         
         // LeaderBoard Win Rate
         
-            let extendedWinRate = self.maniVintePercent * 100
+      /*      let extendedWinRate = self.maniVintePercent * 100
             let intWinRate = Int(extendedWinRate)
 
         GKLeaderboard.submitScore(intWinRate, context: 1, player: GKLocalPlayer.local, leaderboardIDs: ["004_winRate"]) { error in
@@ -370,8 +490,12 @@ class GameAction: ObservableObject {
                 print("Error in submitScore to ReBuy:\(error.debugDescription.description)")
                 return }
         }
-      
+        
+        */
+      print("Dentro SaveForGameKit")
     }
+    
+    
     
   // end Configurazione LeaderBoard GameKit / BankRoll - Hands - Win Rate - Rebuy
     
@@ -508,7 +632,7 @@ class GameAction: ObservableObject {
             
         } else {
             
-            self.saveWinSeries(idLeaderBoard: "006_winSeriesClassic")
+           // self.saveWinSeries(idLeaderBoard: "006_winSeriesClassic")
             self.moneyWinOrLoose = self.pot
             self.winSeries = 0
          //   self.maniPerseFoldate += 1
@@ -576,7 +700,7 @@ class GameAction: ObservableObject {
     
     }
     
-    func saveWinSeries(idLeaderBoard:String) {
+   func saveWinSeries(idLeaderBoard:String) {
         
         // save the best WinSeries in two Moment: 1. When player loose. 2. When the game finish
         
@@ -616,6 +740,29 @@ class GameAction: ObservableObject {
         
     } */
 
+    func saveScoreOnFirebase() {
+        
+        let db = Firestore.firestore()
+        
+        // sul firebase salviamo il bankroll al lordo dei rebuy. Mentre su GameCenter salviamo il netto per avere una classifica più veritiera.
+        
+        // Usiamo l'id del GameCenter, e non l'identifierForVendor, per permettere il recupero dati su device diversi, loggati sullo stesso GameCenter
+        
+         let uniqueIdentifier = GKLocalPlayer.local.gamePlayerID
+            
+            db.collection("ShowTheNutData").document("\(uniqueIdentifier)").setData(["hands" : self.hands,"rebuy" : self.rebuyCount, "grossBankroll" : self.bankroll, "victories" : self.maniVinte]) { error in
+                
+                guard error == nil else {
+                    print("error in saveScoreOnFirebase: \(error.debugDescription)")
+                    return }
+            }
+            
+     //   } else {print("UniqueDeviceId == nil") }
+        
+        
+        print("SaveData for playerID: \(uniqueIdentifier)")
+        
+    }
 
     
 

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Firebase
 
 struct TimeBankSelectionView: View {
     
@@ -17,7 +18,21 @@ struct TimeBankSelectionView: View {
     @State var scaleDimension: CGFloat = 1.0
     @State var rotationAngle: Double = -2.0
     // end Animation
-    var isPremium:Bool
+   
+    var roundTB:Int = 5
+    var isPremium:Bool {
+        
+        self.roundTB != 0
+    }
+
+    init(screenWidth:CGFloat,screenHeight:CGFloat) {
+        
+        self.screenWidth = screenWidth
+        self.screenHeight = screenHeight
+        
+        self.roundTB = 5 - UserDefaults.standard.integer(forKey: "roundTB")
+        
+    }
     
     var body: some View {
         
@@ -49,7 +64,8 @@ struct TimeBankSelectionView: View {
                 
                 HStack {
                     Image(systemName: isPremium ? "lock.open" : "lock")
-                    Text("0/5 left")
+                    Text("\(roundTB)/5 left")
+                    
                 }
                 .font(.system(size: screenWidth * 0.05, weight: .bold, design: .monospaced))
                 .foregroundColor(Color(CGColor(red: 1, green: 1, blue: 1, alpha: 1)))
@@ -74,6 +90,7 @@ struct TimeBankSelectionView: View {
                 
             }
         }
+        
     }
 }
 

@@ -182,6 +182,11 @@ struct ClassicGameView: View {
             
         }) // Quando termina il round, cambia il conto delle mani, viene chiamato questo metodo che aggiorna i livelli. Comprende dove far sedere il giocatore in base al livello precedentemente scelto dal giocatore.
         
+       /* .onDisappear(perform: {
+            ga.saveScoreOnFirebase()
+            print("ClassicGameView disappeared")
+        })*/
+        
         .overlay(
  
             VStack {

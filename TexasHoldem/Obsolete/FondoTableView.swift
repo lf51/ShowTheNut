@@ -13,6 +13,15 @@ struct FondoTableView: View {
     
     @State private var levelIndex = 0
     
+    var test:Float {
+        
+        let firstStep:Float = (3 / 4) * 100
+        
+        return firstStep
+        
+    }
+    
+    
     var body: some View {
   
         ZStack {
@@ -22,6 +31,7 @@ struct FondoTableView: View {
             
             Color(CGColor(red: 0, green: 0, blue: 0, alpha: 1)).ignoresSafeArea().opacity(0.8)
             
+            Text("\(test)")
             
             
       //  Color(CGColor(red: 0, green: 0.5603182912, blue: 0, alpha: 1)).ignoresSafeArea()

@@ -32,8 +32,9 @@ struct ButtonConsolleViewTB: View {
     } */
     
     @State var buttonColor: CGFloat = 1.0
-    
     @State var startCount = false
+    
+    var isPremiumCheck:Bool { UserDefaults.standard.integer(forKey: "roundTB") == 5}
     
     var body: some View {
         
@@ -55,7 +56,7 @@ struct ButtonConsolleViewTB: View {
                     Circle()
                         .frame(height: buttonSize.frameHeight * 1.5)
                         .foregroundColor(vm.stepCount == 0 ? Color.blue : Color(red: (1 - buttonColor), green: buttonColor, blue: 0.0))
-                        .shadow(color: Color.black, radius: 5.0)
+                        .shadow(color: Color.black, radius: isPremiumCheck || vm.stepCount != 0 ? 0.0 : 5.0)
                         .overlay(
                         
                             Text(vm.stepCount == 0 ? "Deal" : "\(ga.countDown,specifier: "%.2f")")
@@ -63,8 +64,9 @@ struct ButtonConsolleViewTB: View {
                                 .foregroundColor(Color.white)
                         
                         )
+                        .opacity(isPremiumCheck ? 0.6 : 1.0)
                       
-                }).disabled(vm.stepCount != 0)
+                }).disabled(vm.stepCount != 0 || isPremiumCheck)
      
         }.onReceive(ga.timer) { _ in
            

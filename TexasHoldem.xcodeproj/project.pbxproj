@@ -3,13 +3,14 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		4D0DFF88275E5C9700397BED /* ItalianRulesViewTB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D0DFF87275E5C9700397BED /* ItalianRulesViewTB.swift */; };
 		4D36EBD52757DDF900761A63 /* BettingConsolleOnPhoneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D36EBD42757DDF900761A63 /* BettingConsolleOnPhoneView.swift */; };
 		4D36EBD72759236000761A63 /* BettingConsolleOnPadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D36EBD62759236000761A63 /* BettingConsolleOnPadView.swift */; };
+		4D3CD02327626D2F0067A3CD /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 4D3CD02227626D2F0067A3CD /* FirebaseFirestore */; };
 		4D57BDEF270EFA7F00778D08 /* FondoTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D57BDEE270EFA7F00778D08 /* FondoTableView.swift */; };
 		4D5AAE5B271DD890008CC999 /* OpenBettingConsolleOnPhoneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5AAE5A271DD890008CC999 /* OpenBettingConsolleOnPhoneView.swift */; };
 		4D5AAE5D271DDB47008CC999 /* OpenBettingConsolleOnPadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5AAE5C271DDB46008CC999 /* OpenBettingConsolleOnPadView.swift */; };
@@ -18,7 +19,7 @@
 		4D5AAE64271DDC70008CC999 /* StatRectangleOnTopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5AAE63271DDC70008CC999 /* StatRectangleOnTopView.swift */; };
 		4D5AAE66271DDCA9008CC999 /* ScoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5AAE65271DDCA9008CC999 /* ScoreView.swift */; };
 		4D5AAE68271DDD02008CC999 /* ButtonConsolleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5AAE67271DDD02008CC999 /* ButtonConsolleView.swift */; };
-		4D61A7A227455A9900ECA297 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D61A7A127455A9900ECA297 /* HomeView.swift */; };
+		4D61A7A227455A9900ECA297 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D61A7A127455A9900ECA297 /* ContentView.swift */; };
 		4D61A7A42745621800ECA297 /* TimeBankView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D61A7A32745621800ECA297 /* TimeBankView.swift */; };
 		4D61A7AB274566B900ECA297 /* AlgoritmoTB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D61A7AA274566B900ECA297 /* AlgoritmoTB.swift */; };
 		4D61A7AE27456CD200ECA297 /* GameActionTB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D61A7AD27456CD200ECA297 /* GameActionTB.swift */; };
@@ -63,11 +64,11 @@
 		4DD79E3C274EC96300DCB8DA /* ClassicGameSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DD79E3B274EC96300DCB8DA /* ClassicGameSelectionView.swift */; };
 		4DD79E3E274EDD2700DCB8DA /* ExitButtonViewTB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DD79E3D274EDD2700DCB8DA /* ExitButtonViewTB.swift */; };
 		4DDAB6AF26FDC50D00E1EA3F /* TexasHoldemApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DDAB6AE26FDC50D00E1EA3F /* TexasHoldemApp.swift */; };
-		4DDAB6B126FDC50D00E1EA3F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DDAB6B026FDC50D00E1EA3F /* ContentView.swift */; };
 		4DDAB6B326FDC51100E1EA3F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4DDAB6B226FDC51100E1EA3F /* Assets.xcassets */; };
 		4DDAB6B626FDC51100E1EA3F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4DDAB6B526FDC51100E1EA3F /* Preview Assets.xcassets */; };
 		4DDAB6BE26FDC55100E1EA3F /* ClassicGameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DDAB6BD26FDC55100E1EA3F /* ClassicGameView.swift */; };
 		4DDAB6C026FDD7DE00E1EA3F /* AlgoritmoGioco.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DDAB6BF26FDD7DE00E1EA3F /* AlgoritmoGioco.swift */; };
+		4DE69BF627612ABA00561BE4 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4DE69BF527612ABA00561BE4 /* GoogleService-Info.plist */; };
 		4DEF954E27220256005B97CE /* FinalResultOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DEF954D27220256005B97CE /* FinalResultOverlayView.swift */; };
 /* End PBXBuildFile section */
 
@@ -83,7 +84,7 @@
 		4D5AAE63271DDC70008CC999 /* StatRectangleOnTopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatRectangleOnTopView.swift; sourceTree = "<group>"; };
 		4D5AAE65271DDCA9008CC999 /* ScoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreView.swift; sourceTree = "<group>"; };
 		4D5AAE67271DDD02008CC999 /* ButtonConsolleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonConsolleView.swift; sourceTree = "<group>"; };
-		4D61A7A127455A9900ECA297 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		4D61A7A127455A9900ECA297 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		4D61A7A32745621800ECA297 /* TimeBankView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeBankView.swift; sourceTree = "<group>"; };
 		4D61A7AA274566B900ECA297 /* AlgoritmoTB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlgoritmoTB.swift; sourceTree = "<group>"; };
 		4D61A7AD27456CD200ECA297 /* GameActionTB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameActionTB.swift; sourceTree = "<group>"; };
@@ -129,12 +130,12 @@
 		4DD79E3D274EDD2700DCB8DA /* ExitButtonViewTB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExitButtonViewTB.swift; sourceTree = "<group>"; };
 		4DDAB6AB26FDC50D00E1EA3F /* TexasHoldem.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TexasHoldem.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4DDAB6AE26FDC50D00E1EA3F /* TexasHoldemApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TexasHoldemApp.swift; sourceTree = "<group>"; };
-		4DDAB6B026FDC50D00E1EA3F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		4DDAB6B226FDC51100E1EA3F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4DDAB6B526FDC51100E1EA3F /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		4DDAB6B726FDC51100E1EA3F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4DDAB6BD26FDC55100E1EA3F /* ClassicGameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassicGameView.swift; sourceTree = "<group>"; };
 		4DDAB6BF26FDD7DE00E1EA3F /* AlgoritmoGioco.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlgoritmoGioco.swift; sourceTree = "<group>"; };
+		4DE69BF527612ABA00561BE4 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = "GoogleService-Info.plist"; path = "FireBase/GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		4DEF954D27220256005B97CE /* FinalResultOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinalResultOverlayView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -144,6 +145,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4D72A804272EAFFB00237A04 /* GameKit.framework in Frameworks */,
+				4D3CD02327626D2F0067A3CD /* FirebaseFirestore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -320,9 +322,8 @@
 		4DDAB6AD26FDC50D00E1EA3F /* TexasHoldem */ = {
 			isa = PBXGroup;
 			children = (
-				4D61A7A127455A9900ECA297 /* HomeView.swift */,
+				4D61A7A127455A9900ECA297 /* ContentView.swift */,
 				4DDAB6AE26FDC50D00E1EA3F /* TexasHoldemApp.swift */,
-				4DDAB6B026FDC50D00E1EA3F /* ContentView.swift */,
 				4DDAB6BD26FDC55100E1EA3F /* ClassicGameView.swift */,
 				4D61A7A32745621800ECA297 /* TimeBankView.swift */,
 				4DAE47312715EAF40097E353 /* TableViewComposition */,
@@ -331,6 +332,7 @@
 				4D5AAE58271DD82F008CC999 /* Obsolete */,
 				4DDAB6B226FDC51100E1EA3F /* Assets.xcassets */,
 				4DDAB6B726FDC51100E1EA3F /* Info.plist */,
+				4DE69BF527612ABA00561BE4 /* GoogleService-Info.plist */,
 				4DDAB6B426FDC51100E1EA3F /* Preview Content */,
 				4DC35D35275D382A009E5C9D /* LaunchScreen.storyboard */,
 			);
@@ -388,6 +390,9 @@
 			dependencies = (
 			);
 			name = TexasHoldem;
+			packageProductDependencies = (
+				4D3CD02227626D2F0067A3CD /* FirebaseFirestore */,
+			);
 			productName = TexasHoldem;
 			productReference = 4DDAB6AB26FDC50D00E1EA3F /* TexasHoldem.app */;
 			productType = "com.apple.product-type.application";
@@ -415,6 +420,9 @@
 				Base,
 			);
 			mainGroup = 4DDAB6A226FDC50D00E1EA3F;
+			packageReferences = (
+				4D3CD02127626D2F0067A3CD /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			productRefGroup = 4DDAB6AC26FDC50D00E1EA3F /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -437,6 +445,7 @@
 				4D72A7E9272B021E00237A04 /* allin.mp3 in Resources */,
 				4D72A7ED272B06E300237A04 /* success.mp3 in Resources */,
 				4D72A7F1272B0A7D00237A04 /* coindrop.mp3 in Resources */,
+				4DE69BF627612ABA00561BE4 /* GoogleService-Info.plist in Resources */,
 				4D72A7F9272C560C00237A04 /* check.mp3 in Resources */,
 				4DDAB6B326FDC51100E1EA3F /* Assets.xcassets in Resources */,
 			);
@@ -460,7 +469,6 @@
 				4D5AAE60271DDC14008CC999 /* PotOnPhoneView.swift in Sources */,
 				4D57BDEF270EFA7F00778D08 /* FondoTableView.swift in Sources */,
 				4D5AAE5D271DDB47008CC999 /* OpenBettingConsolleOnPadView.swift in Sources */,
-				4DDAB6B126FDC50D00E1EA3F /* ContentView.swift in Sources */,
 				4D78A3FF2737015E0025A963 /* GheraLivelliView.swift in Sources */,
 				4D72A80B272F0B1C00237A04 /* FrenchRulesView.swift in Sources */,
 				4D61A7B62746BAC100ECA297 /* BestScoreOverlayViewTB.swift in Sources */,
@@ -475,7 +483,7 @@
 				4D36EBD72759236000761A63 /* BettingConsolleOnPadView.swift in Sources */,
 				4D72A7E5272AFE2F00237A04 /* SoundManager.swift in Sources */,
 				4D72A7FF272DA28A00237A04 /* BankRollOverlayView.swift in Sources */,
-				4D61A7A227455A9900ECA297 /* HomeView.swift in Sources */,
+				4D61A7A227455A9900ECA297 /* ContentView.swift in Sources */,
 				4D61A7AE27456CD200ECA297 /* GameActionTB.swift in Sources */,
 				4D5AAE66271DDCA9008CC999 /* ScoreView.swift in Sources */,
 				4D72A81127306B0300237A04 /* TesterView.swift in Sources */,
@@ -512,9 +520,9 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LIBRARY = "compiler-default";
+				CLANG_ENABLE_MODULES = NO;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
@@ -539,14 +547,14 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COPY_PHASE_STRIP = NO;
+				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_TESTABILITY = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
+				ENABLE_TESTABILITY = NO;
+				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_NO_COMMON_BLOCKS = NO;
+				GCC_OPTIMIZATION_LEVEL = s;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -560,7 +568,11 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = (
+					"$(OTHER_LDFLAGS)",
+					"-ObjC",
+				);
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -573,9 +585,9 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LIBRARY = "compiler-default";
+				CLANG_ENABLE_MODULES = NO;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
@@ -600,12 +612,12 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COPY_PHASE_STRIP = NO;
+				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_C_LANGUAGE_STANDARD = "compiler-default";
+				GCC_NO_COMMON_BLOCKS = NO;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -615,6 +627,10 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				OTHER_LDFLAGS = (
+					"$(OTHER_LDFLAGS)",
+					"-ObjC",
+				);
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
@@ -628,10 +644,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-53C";
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_ASSET_PATHS = "\"TexasHoldem/Preview Content\"";
 				DEVELOPMENT_TEAM = 2HR732K89Z;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_TESTABILITY = NO;
+				FRAMEWORK_SEARCH_PATHS = "";
+				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = TexasHoldem/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -652,10 +671,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-53C";
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_ASSET_PATHS = "\"TexasHoldem/Preview Content\"";
 				DEVELOPMENT_TEAM = 2HR732K89Z;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_TESTABILITY = NO;
+				FRAMEWORK_SEARCH_PATHS = "";
+				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = TexasHoldem/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -692,6 +714,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		4D3CD02127626D2F0067A3CD /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		4D3CD02227626D2F0067A3CD /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4D3CD02127626D2F0067A3CD /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 4DDAB6A326FDC50D00E1EA3F /* Project object */;
 }

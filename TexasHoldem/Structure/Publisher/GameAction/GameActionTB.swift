@@ -7,7 +7,7 @@
 
 import Foundation
 import GameKit
-
+import Firebase
 
 class GameActionTB: GameAction {
     
@@ -36,7 +36,7 @@ class GameActionTB: GameAction {
                        print("player score != nil")
                        let importedScore = player?.score
                        let floatScore = Float(importedScore!)
-                       self.rebuyCount = floatScore / 100
+                       self.rebuyCount = floatScore / 100 // nel rebuyCount salviamo il BestScore
                    }
                }
         }
@@ -117,25 +117,69 @@ class GameActionTB: GameAction {
     
    override func saveScores() {
        
-       print("saveScores Overrided")
-       
-        // TimeBank LeaderBoard Score == RebuyCount
-        
-        let extendedScore = self.rebuyCount * 100
-        let intScore = Int(extendedScore)
-        
-        GKLeaderboard.submitScore(intScore, context: 1, player: GKLocalPlayer.local, leaderboardIDs: ["005_tbScore"]) { error in
-            
-            guard error == nil else {
-                print("Error in submitScore to ScoreTB:\(error.debugDescription.description)")
-                return }
-        }
-       
-       // Salviamo La miglior serie vincente
-       saveWinSeries(idLeaderBoard: "007_winSeries")
+       guard GameAction.localPlayerAuth else {
+           
+           print("In TB giocatore non loggato - Nessun Salvataggio su GameKit")
+           saveForPremiumCheck()
+           return
+       }
+       saveScoresOnGameKit()
+       saveForPremiumCheck()
+       print("saveScores Overrided completamente")
     }
     
-   
+    override func saveScoresOnGameKit() {
+        
+        print("saveScoresOnGameKit Overrided")
+        
+         // TimeBank LeaderBoard Score == RebuyCount
+         
+         let extendedScore = self.rebuyCount * 100
+         let intScore = Int(extendedScore)
+         
+         GKLeaderboard.submitScore(intScore, context: 1, player: GKLocalPlayer.local, leaderboardIDs: ["005_tbScore"]) { error in
+             
+             guard error == nil else {
+                 print("Error in submitScore to ScoreTB:\(error.debugDescription.description)")
+                 return }
+         }
+        
+        saveWinSeries(idLeaderBoard: "007_winSeries")
+
+     }
     
+    func saveForPremiumCheck() {
+        
+            let userDefault = UserDefaults.standard
+            
+            let roundTB = userDefault.integer(forKey: "roundTB") + 1
+        
+            userDefault.set(roundTB, forKey: "roundTB")
+             print("savedOnUserDef-RoundTB : \(roundTB)")
+    }
     
+ /* override func saveScoreOnFirebase() {
+        
+        let db = Firestore.firestore()
+      
+      if let uniqueId = UIDevice.current.identifierForVendor {
+          
+          db.collection("ShowTheNut-AllGames").document("\(uniqueId)").setData(["handsTB" : self.hands,"isPremium" : true ],merge: true) { error in
+              guard error == nil else { return }
+          }
+          
+          print("SaveData for playerID:\(uniqueId)")
+          
+      }
+      
+      else {
+          
+          print("dentro TB-SaveScoreOnFireBase idUnique == nil")
+       //   db.collection("OutGKAuthantication").document("\()")
+          
+      }
+      
+    } */
+
 }
+
