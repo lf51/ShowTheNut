@@ -60,7 +60,7 @@ struct TimeBankSelectionView: View {
                     .foregroundColor(Color(CGColor(red: 1, green: 1, blue: 1, alpha: 1)))
                     .scaleEffect(scaleDimension)
                     .rotationEffect(.degrees(rotationAngle))
-                    .padding(.top, screenWidth / 2)
+                    .padding(.top, screenWidth * 0.4) // modificare per ipad
                 
                 HStack {
                     Image(systemName: isPremium ? "lock.open" : "lock")

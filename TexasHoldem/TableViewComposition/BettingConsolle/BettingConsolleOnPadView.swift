@@ -50,7 +50,7 @@ struct BettingConsolleOnPadView: View {
                             .frame(width: (screenWidth/0.7) * 0.06, height: (screenWidth/0.7) * 0.06, alignment: .center)
                             .shadow(color: .black, radius: areFichesDisabled ? 0.0 : 2.0)
                             .opacity(areFichesDisabled ? 0.6 : 1.0)
-                            .overlay(Text("3x").bold().foregroundColor(Color.black),alignment:.center)
+                            .overlay(Text("3x").font(.system(size: (screenWidth/0.7) * 0.028, weight: .bold, design: .default)).foregroundColor(Color.black),alignment:.center)
                             .padding(.trailing)
 
                 }
@@ -68,9 +68,8 @@ struct BettingConsolleOnPadView: View {
                         .foregroundColor(Color.yellow)
                         .frame(width: (screenWidth/0.7) * 0.06, height: (screenWidth/0.7) * 0.06, alignment: .center)
                         .shadow(color: .black, radius: areFichesDisabled ? 0.0 : 2.0)
-                        
                         .opacity(areFichesDisabled ? 0.6 : 1.0)
-                        .overlay(Text(vm.stepCount <= 4 ? "\(ga.betLimitOnFlop,specifier: "%.0f")x" : "\(ga.betLimitOnTurn,specifier: "%.1f")x").bold().foregroundColor(Color.black),alignment:.center)
+                        .overlay(Text(vm.stepCount <= 4 ? "\(ga.betLimitOnFlop,specifier: "%.0f")x" : "\(ga.betLimitOnTurn,specifier: "%.1f")x").font(.system(size: (screenWidth/0.7) * 0.028, weight: .bold, design: .default)).foregroundColor(Color.black),alignment:.center)
                         .padding(.trailing)
                 }
                 

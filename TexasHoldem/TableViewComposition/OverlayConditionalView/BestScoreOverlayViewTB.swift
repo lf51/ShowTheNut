@@ -38,8 +38,8 @@ struct BestScoreOverlayViewTB: View {
             let offsetFrame = -(frameHeight / 20)
             let cornerRadiusExternal = frameHeight * 0.045
             
-            let fontSizePlayerWin = frameHeight * 0.065
-            let fontSizePlayAgain = frameHeight * 0.055
+            let fontSizePlayerWin = frameHeight * 0.075
+            let fontSizePlayAgain = frameHeight * 0.065
             
             let lineSpacing = frameHeight * 0.025
             let cornerRadiusPlayAgain = frameHeight * 0.0125
@@ -65,17 +65,19 @@ struct BestScoreOverlayViewTB: View {
           
                 VStack {
                  
-                    VStack(spacing:sizing.lineSpacing) {
-                        Text("Boards:")
-                        Text("\(ga.hands,specifier: "%.0f")").foregroundColor(Color.purple)
-                        Text("Best Streak:")
-                        Text("\(ga.winSeries, specifier: "%.0f") da modificare").foregroundColor(Color.purple)
+                   VStack(spacing:sizing.lineSpacing) {
+                        Text("Show The Nut - TB60'")
+                           .font(.system(size: sizing.fontSizePlayerWin * 1.1, weight: .bold, design: .monospaced))
+                      //  Text("\(ga.hands,specifier: "%.0f")").foregroundColor(Color.purple)
+                       // Text("Best Streak:")
+                       // Text("\(ga.winSeries, specifier: "%.0f") da modificare").foregroundColor(Color.purple)
                         
                         // Nut Hand
-                            
+                        
                     }
+                    .lineLimit(1)
                     .minimumScaleFactor(0.1)
-                    .padding(.bottom)
+                    .padding(.vertical)
                     
                   /*  ZStack {
  
@@ -112,17 +114,17 @@ struct BestScoreOverlayViewTB: View {
             
                     }*/
                     
-                  //  Spacer()
+                    Spacer()
                     
                    // if vm.playerWin {
                        
-                        Text("TOTAL SCORE").font(.system(size: sizing.fontSizePlayerWin, weight: .bold, design: .monospaced)).foregroundColor(Color.green)
+                        Text("MATCH SCORE").font(.system(size: sizing.fontSizePlayerWin, weight: .bold, design: .monospaced)).foregroundColor(Color.green)
                       
                         Text("\(ga.bankroll,specifier:"%.2f")")
                     
-                    Spacer()
+                 //   Spacer()
                     
-                        Text("BEST SCORE").font(.system(size: sizing.fontSizePlayerWin, weight: .bold, design: .monospaced)).foregroundColor(Color.red)
+                    Text("BEST SCORE").font(.system(size: sizing.fontSizePlayerWin, weight: .bold, design: .monospaced)).foregroundColor(Color.red).padding(.top)
                     
                         Text("\(ga.rebuyCount,specifier:"%.2f")") // nel rebuyCount è stoccato il best Score
                     

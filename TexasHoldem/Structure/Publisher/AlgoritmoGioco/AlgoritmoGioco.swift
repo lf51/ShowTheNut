@@ -78,6 +78,7 @@ class AlgoritmoGioco: ObservableObject {
         self.myCards = ["retroCarta2", "retroCarta2"]
         self.nutsCards = []
         self.goodCardInTheBoard = []
+        self.mazzoA = []
         self.shuffledCards = self.studCards // se le shuffledCards sono uguali alle studs nelle partite successive alla prima il tavolo non si svuota ed è come se le carte venissero ammucchiate in mezzo per essere reimmischiate. Nella mano zero il tavolo è vuoto perchè le shuffled sono []. Se mettessimo qui l'uguaglianza al vuoto dovremmo attribuirgli le studcards fuori, nella shuffleUp()
         
       //  self.showOptions = false
