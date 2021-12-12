@@ -54,11 +54,11 @@ struct PreFlopShufflingCards: View {
         else {
             
             if isInMazzoA {
-print("è nel mazzo A")
+                //print("è nel mazzo A")
                 return CGPoint(x:(centerX + (cardWidth * 1.5)),y: centerY) }
                 
              else {
-                 print("NON è nel mazzo A")
+                // print("NON è nel mazzo A")
                  return CGPoint(x:centerX,y: centerY) }
             }
             

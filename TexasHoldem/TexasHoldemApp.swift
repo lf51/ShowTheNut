@@ -16,7 +16,11 @@ struct TexasHoldemApp: App {
     init() {
         
         FirebaseApp.configure()
-      //  UserDefaults.standard.set(0, forKey: "roundTB")
+        let db = Firestore.firestore()
+        db.app.isDataCollectionDefaultEnabled = false
+        print("isDataCollectionEnabledDefault:\(db.app.isDataCollectionDefaultEnabled.description)")
+       /* print("isDataCollectionEnabledCustom:\(db.app.isDataCollectionDefaultEnabled.description)")
+      //  UserDefaults.standard.set(0, forKey: "roundTB") */
     }
         
     var body: some Scene {
