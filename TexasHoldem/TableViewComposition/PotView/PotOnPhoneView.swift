@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct PotOnPhoneView:View {
+/*struct PotOnPhoneView:View {
     
     // Solo per iphone
     @ObservedObject var ga:GameAction
@@ -52,4 +52,4 @@ struct PotOnPhoneView:View {
     
 
     
-}
+} */

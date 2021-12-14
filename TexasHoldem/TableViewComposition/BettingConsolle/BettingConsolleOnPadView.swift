@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct BettingConsolleOnPadView: View {
+/*struct BettingConsolleOnPadView: View {
     
     var screenWidth:CGFloat
     
@@ -80,7 +80,7 @@ struct BettingConsolleOnPadView: View {
         
         
     }
-}
+} */
 
 /*
 struct BettingConsolleOnPhoneView_Previews: PreviewProvider {

@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct OpenBettingConsolleOnPadView: View {
+/*struct OpenBettingConsolleOnPadView: View {
     
     @ObservedObject var vm: AlgoritmoGioco
     @ObservedObject var ga: GameAction
@@ -74,4 +74,4 @@ struct OpenBettingConsolleOnPadView: View {
             
         }
     }
-}
+} */

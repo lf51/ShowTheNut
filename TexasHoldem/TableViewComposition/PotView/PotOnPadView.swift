@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct PotOnPadView: View {
+/*struct PotOnPadView: View {
     
     @ObservedObject var ga:GameAction
     @ObservedObject var gl:GameLevel
@@ -42,4 +42,4 @@ struct PotOnPadView: View {
        // .opacity(0.8)
         .ignoresSafeArea()
     }
-}
+} */

@@ -46,7 +46,7 @@ struct ContentView: View {
                     
                 } label: {
                     ClassicGameSelectionView(screenWidth: screenWidth, screenHeight: screenHeight)
-                }
+                }.disabled(true)
            
                 Button {
                     

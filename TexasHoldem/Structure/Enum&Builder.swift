@@ -28,7 +28,7 @@ enum PossibleResults {
         
 }*/
 
-enum ChipsValue{
+/*enum ChipsValue{
     
     case high(value:String)
     case middle(value:String)
@@ -48,7 +48,7 @@ enum TableLevel:String {
     case black = "50 - 100"
     case iceBlack = "250 - 500"
 
-}
+} */
 
 
 @resultBuilder

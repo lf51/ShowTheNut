@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct OpenBettingConsolleOnPhoneView: View {
+/*struct OpenBettingConsolleOnPhoneView: View {
     
     @ObservedObject var vm: AlgoritmoGioco
     @ObservedObject var ga: GameAction
@@ -75,4 +75,4 @@ struct OpenBettingConsolleOnPhoneView: View {
          
         }
     }
-}
+} */

@@ -8,7 +8,7 @@
 import Foundation
 import GameKit
 import SwiftUI
-import Firebase
+
 
 class GameAction: ObservableObject {
     // TimeBankGA --> Abbiamo messo le proprietà e i metodi qui e non nella sottoclasse di appartenenza perchè quando chiamiamo i suddetti metodi e proprietà nelle view ci ritorna un errore. Nelle view noi usiamo la superclasse, e poi in base al gioco che si utilizza passiamo o la superclasse o la sottoclasse. Nei casi in cui passiamo la sottoclasse, i metodi e le proprietà richiamate non vengono trovate nella sottoclasse a meno di questo escamotage. Esempio: in una view condivise fra i due giochi dobbiamo accedere (esempio) a countdown. Usereme -- ga.countdown -- ga è definita nella view come una GameAction property. Dunque accederemo al countdown in entrambi i casi, sia qualora fossimo nel gioco classico che nel timebank. Ma il countdown ci serve solo per il gioco a tempo. Se spostiamo questa proprietà nella sottoclasse, nella view ricaviamo un errore perchè la ga.countdown non verrebbe più trovata in quanto il sistema accede alla superclasse. Dovremmo inizializzare la ga nella view come una GameActionTB, ma poi avremmo problemi con la Classic. Questo problema è molto probabilmente superato con protocolli e strutture, ma qui non possiamo provarlo perchè ci servono come Observer.
@@ -212,7 +212,7 @@ class GameAction: ObservableObject {
     func updateScores() {
         
         self.updateScoresFromGameKit()
-        self.updateScoresFromFirebase()
+      // self.updateScoresFromFirebase()
     }
     
    /* func updateScoresFromGameKit() {
@@ -378,43 +378,7 @@ class GameAction: ObservableObject {
                 
         }
     }
-    
-    
-    func updateScoresFromFirebase() {
-        
-        let db = Firestore.firestore()
-        
-        let uniqueId = GKLocalPlayer.local.gamePlayerID
-            
-                db.collection("ShowTheNutData").document("\(uniqueId)").getDocument { document, error in
-                
-                guard error == nil else {return}
-                
-                if document?.exists == true {
-                    
-                    print("Id Documento(must be equal to identifierForVendor):\(document?.documentID ?? "")")
-                    // il bankroll continuiamo a prenderlo dal GameCenter ma lo salviamo anche sul Firebase come valore lordo
-                    
-                    self.rebuyCount = document?.get("rebuy") as! Float
-                    self.hands = document?.get("hands") as! Float
-                    self.maniVinte = document?.get("victories") as! Float
-                    
-                    print("Score update from Firebase")
-                    
-                } else {
-                    
-                    print("Probabile primo Accesso. Player Non Ancora in DataBase")
-                    
-                    // inserire il valore del bankroll di 200 nel caso in cui è primo ingresso ed è autenticato con GameCenter. Actually not necessary. Perchè se si logga con GK e non ha score salvati, già è predisposto il default.
-                    
-                }
-                
-                }
-   
-        
-// Abbiamo lasciato il load del bankroll dal gameKit semplicemente per non riscrivere tutto l'ambaradan necessario. In seguito potremmo spostarlo sul firebase anche per un codice più pulito. Sul firebase cmq già lo salviamo al lordo di rebuy e posta iniziale.
-    }
-    
+
     
     func saveScores() {
         
@@ -424,7 +388,6 @@ class GameAction: ObservableObject {
         }
         
         saveScoresOnGameKit()
-        saveScoreOnFirebase()
       
     }
     
@@ -739,32 +702,7 @@ class GameAction: ObservableObject {
     // In questa forma sembrerebbe funzionare. Il problema è che il dato viene salvato su icloud, il che funziona in modo separato rispetto al Game Center. Ossia, l'utente potrebbe essere loggato sul game center e non sul cloud e viceversa. Questo quindi provaca diversi problemi di gestione del dato, dato che a noi servirebbe poi recupararlo, non solo per le classifiche ma per gli score di gioco. Quindi, o salviamo i dati sul device ( e di questo avremmo certezza) o li continuiamo a salvare su Gamekit come classifiche.
         
     } */
-
-    func saveScoreOnFirebase() {
-        
-        let db = Firestore.firestore()
-        
-        // sul firebase salviamo il bankroll al lordo dei rebuy. Mentre su GameCenter salviamo il netto per avere una classifica più veritiera.
-        
-        // Usiamo l'id del GameCenter, e non l'identifierForVendor, per permettere il recupero dati su device diversi, loggati sullo stesso GameCenter
-        
-         let uniqueIdentifier = GKLocalPlayer.local.gamePlayerID
-            
-            db.collection("ShowTheNutData").document("\(uniqueIdentifier)").setData(["hands" : self.hands,"rebuy" : self.rebuyCount, "grossBankroll" : self.bankroll, "victories" : self.maniVinte]) { error in
-                
-                guard error == nil else {
-                    print("error in saveScoreOnFirebase: \(error.debugDescription)")
-                    return }
-            }
-            
-     //   } else {print("UniqueDeviceId == nil") }
-        
-        
-        print("SaveData for playerID: \(uniqueIdentifier)")
-        
-    }
-
-    
+  
 
 }
 

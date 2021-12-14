@@ -12,7 +12,7 @@ import GameKit
 // inserire il livello platinum o corallo da 20k al posto del black. Black diventa da 100k
 
 
-class GameLevel: ObservableObject {
+/*class GameLevel: ObservableObject {
     
     @Published var level: TableLevel = .green
     
@@ -378,4 +378,4 @@ class GameLevel: ObservableObject {
         }
 
     }
-}
+}*/
