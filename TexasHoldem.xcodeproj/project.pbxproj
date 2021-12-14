@@ -11,7 +11,6 @@
 		4D36EBD52757DDF900761A63 /* BettingConsolleOnPhoneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D36EBD42757DDF900761A63 /* BettingConsolleOnPhoneView.swift */; };
 		4D36EBD72759236000761A63 /* BettingConsolleOnPadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D36EBD62759236000761A63 /* BettingConsolleOnPadView.swift */; };
 		4D3CD02327626D2F0067A3CD /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 4D3CD02227626D2F0067A3CD /* FirebaseFirestore */; };
-		4D57BDEF270EFA7F00778D08 /* FondoTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D57BDEE270EFA7F00778D08 /* FondoTableView.swift */; };
 		4D5AAE5B271DD890008CC999 /* OpenBettingConsolleOnPhoneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5AAE5A271DD890008CC999 /* OpenBettingConsolleOnPhoneView.swift */; };
 		4D5AAE5D271DDB47008CC999 /* OpenBettingConsolleOnPadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5AAE5C271DDB46008CC999 /* OpenBettingConsolleOnPadView.swift */; };
 		4D5AAE60271DDC14008CC999 /* PotOnPhoneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5AAE5F271DDC14008CC999 /* PotOnPhoneView.swift */; };
@@ -37,7 +36,6 @@
 		4D72A80B272F0B1C00237A04 /* FrenchRulesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D72A80A272F0B1C00237A04 /* FrenchRulesView.swift */; };
 		4D72A80D272F0B2B00237A04 /* ChinaRulesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D72A80C272F0B2B00237A04 /* ChinaRulesView.swift */; };
 		4D72A80F272F10E800237A04 /* SpanishRulesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D72A80E272F10E800237A04 /* SpanishRulesView.swift */; };
-		4D72A81127306B0300237A04 /* TesterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D72A81027306B0300237A04 /* TesterView.swift */; };
 		4D78A3FD2735DB310025A963 /* GameLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D78A3FC2735DB310025A963 /* GameLevel.swift */; };
 		4D78A3FF2737015E0025A963 /* GheraLivelliView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D78A3FE2737015E0025A963 /* GheraLivelliView.swift */; };
 		4D83397A27070A600078DD2D /* ChipsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D83397927070A600078DD2D /* ChipsView.swift */; };
@@ -76,7 +74,6 @@
 		4D0DFF87275E5C9700397BED /* ItalianRulesViewTB.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItalianRulesViewTB.swift; sourceTree = "<group>"; };
 		4D36EBD42757DDF900761A63 /* BettingConsolleOnPhoneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BettingConsolleOnPhoneView.swift; sourceTree = "<group>"; };
 		4D36EBD62759236000761A63 /* BettingConsolleOnPadView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BettingConsolleOnPadView.swift; sourceTree = "<group>"; };
-		4D57BDEE270EFA7F00778D08 /* FondoTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FondoTableView.swift; sourceTree = "<group>"; };
 		4D5AAE5A271DD890008CC999 /* OpenBettingConsolleOnPhoneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenBettingConsolleOnPhoneView.swift; sourceTree = "<group>"; };
 		4D5AAE5C271DDB46008CC999 /* OpenBettingConsolleOnPadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenBettingConsolleOnPadView.swift; sourceTree = "<group>"; };
 		4D5AAE5F271DDC14008CC999 /* PotOnPhoneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PotOnPhoneView.swift; sourceTree = "<group>"; };
@@ -102,7 +99,6 @@
 		4D72A80A272F0B1C00237A04 /* FrenchRulesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrenchRulesView.swift; sourceTree = "<group>"; };
 		4D72A80C272F0B2B00237A04 /* ChinaRulesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChinaRulesView.swift; sourceTree = "<group>"; };
 		4D72A80E272F10E800237A04 /* SpanishRulesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpanishRulesView.swift; sourceTree = "<group>"; };
-		4D72A81027306B0300237A04 /* TesterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TesterView.swift; sourceTree = "<group>"; };
 		4D78A3FC2735DB310025A963 /* GameLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameLevel.swift; sourceTree = "<group>"; };
 		4D78A3FE2737015E0025A963 /* GheraLivelliView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GheraLivelliView.swift; sourceTree = "<group>"; };
 		4D83397927070A600078DD2D /* ChipsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChipsView.swift; sourceTree = "<group>"; };
@@ -152,15 +148,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		4D5AAE58271DD82F008CC999 /* Obsolete */ = {
-			isa = PBXGroup;
-			children = (
-				4D72A81027306B0300237A04 /* TesterView.swift */,
-				4D57BDEE270EFA7F00778D08 /* FondoTableView.swift */,
-			);
-			path = Obsolete;
-			sourceTree = "<group>";
-		};
 		4D5AAE59271DD879008CC999 /* BettingConsolle */ = {
 			isa = PBXGroup;
 			children = (
@@ -329,7 +316,6 @@
 				4DAE47312715EAF40097E353 /* TableViewComposition */,
 				4DAE4736271625C80097E353 /* SubView */,
 				4DE02547272310CB00D84438 /* Structure */,
-				4D5AAE58271DD82F008CC999 /* Obsolete */,
 				4DDAB6B226FDC51100E1EA3F /* Assets.xcassets */,
 				4DDAB6B726FDC51100E1EA3F /* Info.plist */,
 				4DE7B01C2766789C003E4633 /* GoogleService-Info.plist */,
@@ -467,7 +453,6 @@
 				4D72A80D272F0B2B00237A04 /* ChinaRulesView.swift in Sources */,
 				4D72A80F272F10E800237A04 /* SpanishRulesView.swift in Sources */,
 				4D5AAE60271DDC14008CC999 /* PotOnPhoneView.swift in Sources */,
-				4D57BDEF270EFA7F00778D08 /* FondoTableView.swift in Sources */,
 				4D5AAE5D271DDB47008CC999 /* OpenBettingConsolleOnPadView.swift in Sources */,
 				4D78A3FF2737015E0025A963 /* GheraLivelliView.swift in Sources */,
 				4D72A80B272F0B1C00237A04 /* FrenchRulesView.swift in Sources */,
@@ -486,7 +471,6 @@
 				4D61A7A227455A9900ECA297 /* ContentView.swift in Sources */,
 				4D61A7AE27456CD200ECA297 /* GameActionTB.swift in Sources */,
 				4D5AAE66271DDCA9008CC999 /* ScoreView.swift in Sources */,
-				4D72A81127306B0300237A04 /* TesterView.swift in Sources */,
 				4D72A807272F0AC000237A04 /* EnglishRulesView.swift in Sources */,
 				4DEF954E27220256005B97CE /* FinalResultOverlayView.swift in Sources */,
 				4D0DFF88275E5C9700397BED /* ItalianRulesViewTB.swift in Sources */,
