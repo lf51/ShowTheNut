@@ -11,22 +11,24 @@ import SwiftUI
 
 
 class GameAction: ObservableObject {
-    // TimeBankGA --> Abbiamo messo le proprietà e i metodi qui e non nella sottoclasse di appartenenza perchè quando chiamiamo i suddetti metodi e proprietà nelle view ci ritorna un errore. Nelle view noi usiamo la superclasse, e poi in base al gioco che si utilizza passiamo o la superclasse o la sottoclasse. Nei casi in cui passiamo la sottoclasse, i metodi e le proprietà richiamate non vengono trovate nella sottoclasse a meno di questo escamotage. Esempio: in una view condivise fra i due giochi dobbiamo accedere (esempio) a countdown. Usereme -- ga.countdown -- ga è definita nella view come una GameAction property. Dunque accederemo al countdown in entrambi i casi, sia qualora fossimo nel gioco classico che nel timebank. Ma il countdown ci serve solo per il gioco a tempo. Se spostiamo questa proprietà nella sottoclasse, nella view ricaviamo un errore perchè la ga.countdown non verrebbe più trovata in quanto il sistema accede alla superclasse. Dovremmo inizializzare la ga nella view come una GameActionTB, ma poi avremmo problemi con la Classic. Questo problema è molto probabilmente superato con protocolli e strutture, ma qui non possiamo provarlo perchè ci servono come Observer.
     
    let timer = Timer.publish(every: 0.01, tolerance: .none, on: .main, in: .common, options: .none).autoconnect()
     
-    @Published var countDown:Float = 60.0 // secondi
-    var storedCountDown:Float = 60.0 // è il valore del countdown al tempo t-1
+    @Published var countDown:Float // secondi
+    var storedCountDown:Float // è il valore del countdown al tempo t-1
     var winSeries:Float = 0 // è il numero di vittorie consecutive // usata in both the game per gli achievement
     var isGameEnded:Bool = false
     
     var handsTime:[Float] = [] // beta per vedere nel test la media delle risposte per creare un achievement
   //  var isDealButtonActive:Bool = false
      
-    func resetForNewGame() {} // ovverided in TimeBankGA
-    func defaultBankroll() {self.bankroll = 200} // to be overrided
-    func compareScore() {} // to be overrided
-    func resultAttribution (playerWin:Bool, combination:PossibleResults) {} // per il gioco TimeBank. Ovverided nella sottoclasse
+    
+    var inSecond:InSecondTB
+    var colorTable:Color = Color(red: 0, green: 0.5603182912, blue: 0)
+    
+    func defaultBankroll() {self.bankroll = 0}
+    
+ 
     
     //
     
@@ -46,8 +48,14 @@ class GameAction: ObservableObject {
     
     // fine variabili il cui valore è recuperato dal server GameKit
     
-    init() {
-        print("init in SuperClasse e authFailed: \(GameAction.authFailed) e localPlayerAuth: \(GameAction.localPlayerAuth)")
+    init(inSecond:InSecondTB) {
+        
+        print("init in SuperClasse GameAction inSecond:\(inSecond) e authFailed: \(GameAction.authFailed) e localPlayerAuth: \(GameAction.localPlayerAuth)")
+        
+        self.inSecond = inSecond
+        self.countDown = inSecond.rawValue
+        self.storedCountDown = inSecond.rawValue
+        self.tableColor()
         
         if GameAction.localPlayerAuth {
             print("Probabile secondo ingresso con Player già autenticato")
@@ -60,7 +68,27 @@ class GameAction: ObservableObject {
         else {
             print("Probabile PRIMO ACCESSO")
             self.authenticateUser() }
+        
     }
+    
+    
+    func tableColor() {
+        print("insideTableColor()")
+        switch inSecond {
+            
+        case .level_1:
+            return self.colorTable = Color(red: 0, green: 0.5603182912, blue: 0)
+        case .level_2:
+            return self.colorTable = Color(red: 0.45, green: 0, blue: 0)
+        case .level_3:
+            return self.colorTable = Color(red: 0, green: 0.1, blue: 0.6)
+        case .level_4:
+            return self.colorTable = Color(red: 0.07, green: 0.07, blue: 0.07)
+        }
+        
+    }
+    
+    
     
    /* deinit {
         print("in deinit is LocalPlayerAuth: \(GKLocalPlayer.local.isAuthenticated.description)")
@@ -69,8 +97,8 @@ class GameAction: ObservableObject {
         
     }*/
 
-    @Published var pot:Float = 0.0
-    @Published var bet: Float = 0.0
+  //  @Published var pot:Float = 0.0
+  //  @Published var bet: Float = 0.0
       
   //  var folds: Float {(maniPerseFoldate / hands) * 100} // tolta, vedi maniPerseFoldate
     var maniVintePercent: Float {
@@ -82,14 +110,14 @@ class GameAction: ObservableObject {
     
   // var maniPerseFoldate:Float = 0.0 // tolta perchè non serve. Basta cononoscere la percentuale di mani Vinte
     
-    var gameOpen:Float = 0.0 // Apertura gioco
-    var betLimitOnFlop: Float = 5.0 // sul flop 5x di Default rispetto al Game Open
-    var betLimitOnTurn:Float = 2.0 // sul turn 2x di Default rispetto al GameOpen
+   // var gameOpen:Float = 0.0 // Apertura gioco
+   // var betLimitOnFlop: Float = 5.0 // sul flop 5x di Default rispetto al Game Open
+  //  var betLimitOnTurn:Float = 2.0 // sul turn 2x di Default rispetto al GameOpen
     
-    @Published var rebuyAvaible:Bool = false
+  //  @Published var rebuyAvaible:Bool = false
    
     var moneyWinOrLoose: Float = 0.0 // vittoriaOrSconfitta
-    @Published var payOutAmplificator: Float = 2.0 // Di Default si vince 3x rispetto al Pot
+  //  @Published var payOutAmplificator: Float = 2.0 // Di Default si vince 3x rispetto al Pot
     
   //  @Published var isTherePayOutReduction:Bool = false // mettiamo Published perchè cosi' mi si aggiorna in tempo reale
     
@@ -99,7 +127,7 @@ class GameAction: ObservableObject {
         
     } // questo ci serve per bloccare il reset sul cButton in caso di All-In
     
-    @Published var isBetLocked:Bool = false
+ //   @Published var isBetLocked:Bool = false
   /*  var payOutRate:Float {
         
         if self.isTherePayOutReduction {
@@ -151,6 +179,23 @@ class GameAction: ObservableObject {
         
     }
     
+   func resetForNewGame() {
+        
+        self.isGameEnded = false
+        self.hands = 0
+        self.maniVinte = 0
+        self.bankroll = 0
+        self.countDown = self.inSecond.rawValue
+        self.storedCountDown = self.inSecond.rawValue
+        self.winSeries = 0
+        
+    }
+    
+    func compareScore() {
+         
+         if self.rebuyCount < self.bankroll {self.rebuyCount = self.bankroll}
+         
+     }
    /* func authenticateUser() {
         print("auth in GameAction")
         let localPlayer = GKLocalPlayer.local
@@ -208,254 +253,75 @@ class GameAction: ObservableObject {
         GKAccessPoint.shared.isActive = isActive // appare anche se il localPlayer non si è autenticato. Non crea comunque un conflitto ed è buono per ricordare al giocatore di potersi loggare dentro.
         
     }
-    
-    func updateScores() {
+
+     func updateScores() {
+        print("Update Score overrided")
         
-        self.updateScoresFromGameKit()
-      // self.updateScoresFromFirebase()
-    }
-    
-   /* func updateScoresFromGameKit() {
-           
         let localPlayer = GKLocalPlayer.local
         
-        localPlayer.setDefaultLeaderboardIdentifier("001_bankroll") { error in
-            
-            guard error == nil else {
-                print("error in setting LeaderBoard: \(error.debugDescription)")
-                return}
-            
+        localPlayer.setDefaultLeaderboardIdentifier("005_tbScore") { _ in
             print("Nuova leaderboard di Default")
         }
-
         
-        GKLeaderboard.loadLeaderboards(IDs: ["001_bankroll","004_winRate","002_hands","003_rebuy"]) { leaderBoards, _ in
- 
-        
-            // load Bankroll
-           // print("Leaderboard n°:\(leaderBoards?.count) - [0]: \(leaderBoards?[0].title)- [1]: \(leaderBoards?[1].title)- [2]: \(leaderBoards?[2].title)- [3]: \(leaderBoards?[3].title)")
-    
-            // load Hands // carichiamo prima perchè il valore delle mani giocate ci serve per estrapolare il numero di mani vinte dal win rate
+        GKLeaderboard.loadLeaderboards(IDs: ["005_tbScore"]) { leaderBoards, _ in
+                    print("inside loadLeaderBoards")
             
-            leaderBoards?[2].loadEntries(for: [localPlayer], timeScope: GKLeaderboard.TimeScope.allTime) { player, _, error in
-                   
-                //   print("importedScore: \(player?.score)")
+            leaderBoards?[0].loadEntries(for: [localPlayer], timeScope: GKLeaderboard.TimeScope.allTime) { player, _, error in
+
                    guard error == nil else {return}
-                   
+                
                    if player?.score != nil {
                        
+                       print("player score != nil")
                        let importedScore = player?.score
-                       self.hands = Float(importedScore!)
-
-                       print("hands:\(self.hands) uploaded")
-                   
+                       let floatScore = Float(importedScore!)
+                       self.rebuyCount = floatScore / 100 // nel rebuyCount salviamo il BestScore
                    }
                }
-            
-            // load Rebuy
-            
-            leaderBoards?[3].loadEntries(for: [localPlayer], timeScope: GKLeaderboard.TimeScope.allTime) { player, _, error in
-                
-             //   print("importedScore: \(player?.score)")
-                guard error == nil else {return}
-                
-                if player?.score != nil {
-                    
-                    let importedScore = player?.score
-                    self.rebuyCount = Float(importedScore!)
-              
-                    print("rebuyCount:\(self.rebuyCount) uploaded")
-                
-                }
-            }
-
-            // load Win Rate / bankroll // gli diamo uno stacco con il Dispatch perchè altrimenti si accavallano e non fa in tempo ad aggiornare le hands e i rebuy.
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                
-                leaderBoards?[1].loadEntries(for: [localPlayer], timeScope: GKLeaderboard.TimeScope.allTime) { player, _, error in
-         
-                     guard error == nil else {return}
-                     
-                     if player?.score != nil {
-                         
-                         let importedScore = player?.score
-                         let floatScore = Float(importedScore!)
-                      //   print("Float score: \(floatScore)")
-                         let ultimateScore = floatScore / 10000
-                         print("mani totali dentro complationHandler [1]:\(self.hands)")
-                         self.maniVinte = self.hands * ultimateScore
-                         
-                         print("maniVinte:\(self.maniVinte) uploaded")
-                     
-                     }
-                 }
-                
-            leaderBoards?[0].loadEntries(for: [localPlayer], timeScope: GKLeaderboard.TimeScope.allTime) { player, _, error in
-                    
-                 //   print("importedScore: \(player?.score)")
-                    guard error == nil else {
-                        
-                        self.bankroll = 200
-                        print("Probabile prima autenticazione")
-                        return
-                        
-                    }
-                    
-                    if player?.score != nil {
-                        
-                        let importedScore = player?.score
-                        let floatScore = Float(importedScore!)
-                     //   print("Float score: \(floatScore)")
-                        let ultimateScore = floatScore / 100
-                        
-                        self.bankroll = (ultimateScore + 200) + (self.rebuyCount * 200)
-                        
-                        if self.bankroll == 0 {
-                            
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                                self.bankroll = 200
-                                self.rebuyCount += 1
-                                self.saveScores()
-                            }
-                        }
-                      print("bankroll:\(self.bankroll) uploaded")
-                    
-                    } // else {self.bankroll = 200 }
-                }
-                
-                
-            }
-        }
-    } // Abolita con la v.1 bundle 10 */
-    
-    func updateScoresFromGameKit() {
-           
-        let localPlayer = GKLocalPlayer.local
-        
-        localPlayer.setDefaultLeaderboardIdentifier("001_bankroll") { error in
-            
-            guard error == nil else {
-                print("error in setting LeaderBoard: \(error.debugDescription)")
-                return}
-            
-            print("Nuova leaderboard di Default")
-        }
-
-        
-        GKLeaderboard.loadLeaderboards(IDs: ["001_bankroll"]) { leaderBoards, _ in
-
-        leaderBoards?[0].loadEntries(for: [localPlayer], timeScope: GKLeaderboard.TimeScope.allTime) { player, _, error in
-
-                    guard error == nil else {
-                        
-                        self.bankroll = 200
-                        print("Probabile prima autenticazione")
-                        return
-                        
-                    }
-                    
-                    if player?.score != nil {
-                        
-                        let importedScore = player?.score
-                        let floatScore = Float(importedScore!)
-                        let ultimateScore = floatScore / 100
-                        
-                        self.bankroll = (ultimateScore + 200) + (self.rebuyCount * 200) // perchè salviamo il netto per la classifica
-                        
-                        if self.bankroll == 0 {
-                            
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                                self.bankroll = 200
-                                self.rebuyCount += 1
-                                self.saveScores()
-                            }
-                        }
-                      print("bankroll:\(self.bankroll) uploaded")
-                    
-                    } // else {self.bankroll = 200 }
-                }
-                
         }
     }
-
     
-    func saveScores() {
+   func saveScores() {
         
         guard GameAction.localPlayerAuth else {
-            print("PlayerNonAutenticato")
+            
+            print("In TB giocatore non loggato - Nessun Salvataggio su GameKit")
+            saveForPremiumCheck()
             return
         }
-        
         saveScoresOnGameKit()
-      
-    }
+        saveForPremiumCheck()
+        print("saveScores Overrided completamente")
+     }
     
-    func saveScoresOnGameKit() {
+   func saveScoresOnGameKit() {
         
-        // Win Series Classic Game
-       // self.saveWinSeries(idLeaderBoard: "006_winSeriesClassic")
+        print("saveScoresOnGameKit Overrided")
         
-        // LeaderBoard Bankroll
-        let netBankroll = (self.bankroll - 200) - (200 * self.rebuyCount) // sottraiamo al bankroll la posta iniziale e poi 200 per ogni rebuy
+         // TimeBank LeaderBoard Score == RebuyCount
+         
+         let extendedScore = self.rebuyCount * 100
+         let intScore = Int(extendedScore)
+         
+         GKLeaderboard.submitScore(intScore, context: 1, player: GKLocalPlayer.local, leaderboardIDs: ["005_tbScore"]) { error in
+             
+             guard error == nil else {
+                 print("Error in submitScore to ScoreTB:\(error.debugDescription.description)")
+                 return }
+         }
         
-        let extendedBankroll = netBankroll * 100 // spostiamo la virgola di due posizioni
-        let intBankroll = Int(extendedBankroll)  // trasformiamo in intero di modo da eliminare la virgola. Quando sarà attribuito alla classifica, in questa verranno messe due posizioni decimali (dal GameKit) e il numero sarà così uguale all'originale
-        
-        GKLeaderboard.submitScore(intBankroll, context: 1, player: GKLocalPlayer.local, leaderboardIDs: ["001_bankroll"]) { error in
-            
-            guard error == nil else {
-                print("Error in submitScore to Bankroll:\(error.debugDescription.description)")
-                return }
-        }
+        saveWinSeries(idLeaderBoard: "007_winSeries")
 
-        // !!!! TEST !!!!!! salvataggio in CloudGameCenter?
+     }
     
+    func saveForPremiumCheck() {
         
-       // self.saveWithoutLeaderBoard(value:intBankroll)
-        
-        
-        // end Test
-        
-        
-        // LeaderBoard Win Rate
-        
-      /*      let extendedWinRate = self.maniVintePercent * 100
-            let intWinRate = Int(extendedWinRate)
-
-        GKLeaderboard.submitScore(intWinRate, context: 1, player: GKLocalPlayer.local, leaderboardIDs: ["004_winRate"]) { error in
+            let userDefault = UserDefaults.standard
             
-            guard error == nil else {
-                print("Error in submitScore to WinRate:\(error.debugDescription.description)")
-                return }
-        }
+            let roundTB = userDefault.integer(forKey: "roundTB") + 1
         
-        // LeaderBoard Hands
-        
-       // let extendedHands = self.hands * 100
-        let intHands = Int(self.hands)
-        
-        GKLeaderboard.submitScore(intHands, context: 1, player: GKLocalPlayer.local, leaderboardIDs: ["002_hands"]) { error in
-            
-            guard error == nil else {
-                print("Error in submitScore to Hands:\(error.debugDescription.description)")
-                return }
-        }
-  
-        // LeaderBoard Rebuy
-        
-       // let extendedRebuy = self.rebuyCount * 100
-        let intRebuy = Int(self.rebuyCount)
-        
-        GKLeaderboard.submitScore(intRebuy, context: 1, player: GKLocalPlayer.local, leaderboardIDs: ["003_rebuy"]) { error in
-            
-            guard error == nil else {
-                print("Error in submitScore to ReBuy:\(error.debugDescription.description)")
-                return }
-        }
-        
-        */
-      print("Dentro SaveForGameKit")
+            userDefault.set(roundTB, forKey: "roundTB")
+             print("savedOnUserDef-RoundTB : \(roundTB)")
     }
     
     
@@ -477,7 +343,7 @@ class GameAction: ObservableObject {
   
     // end configurazione Achievement
     
-    func betButton(bet:String,stepCount:Int) {
+   /* func betButton(bet:String,stepCount:Int) {
         
         guard let valueBet = Float(bet) else {return}
         
@@ -507,18 +373,18 @@ class GameAction: ObservableObject {
         
         //stepCount 7 sul turnAfterPick
      
-    }
+    } */
     
-    func cButton() {
+    /*func cButton() {
         
         self.bet = 0.0
         
         if !isPlayerInAllIn{self.payOutAmplificator = 2.0}
          // questo serve per resettare ed evitare che uno facendo all-in e poi cancellando, resti con il x6
         
-    }
+    } */
     
-    func allInButton(stepCount:Int,blueRectangle:Bool){
+   /* func allInButton(stepCount:Int,blueRectangle:Bool){
         
         if stepCount == 2 {
             self.bet = self.bankroll
@@ -543,9 +409,9 @@ class GameAction: ObservableObject {
             
         }
         
-    }
+    } */
     
-    func potComposition(stepCount:Int) {
+   /* func potComposition(stepCount:Int) {
     
         self.pot += self.bet
         self.bankroll -= self.bet
@@ -560,9 +426,9 @@ class GameAction: ObservableObject {
         
         self.bet = 0.0
         
-    }
+    } */
     
-    func cleanOrFoldAction() {
+   /* func cleanOrFoldAction() {
         
         self.hands += 1
         saveScores()
@@ -574,51 +440,70 @@ class GameAction: ObservableObject {
         self.payOutAmplificator = 2.0
         self.betLimitOnTurn = 2.0
        
-    }
+    } */
     
-    func resultAttribution(playerWin:Bool) {
+    func resultAttribution(playerWin: Bool, combination: PossibleResults) {
+       
+     self.showAccessPoint(isActive: true)
+       
+     let timeConsumed = self.storedCountDown - self.countDown
+        if timeConsumed <= 1.0 {achievementAccomplished(id: "006tb_fasterHand") } // Save Achievement faster hand
         
-        self.showAccessPoint(isActive: true)
+     let combinationPoint:Float
         
-        if playerWin {
-            
-           // self.moneyWinOrLoose = (self.pot * self.payOutRate)
-            self.moneyWinOrLoose = (self.pot * self.payOutAmplificator)
-            
-            self.bankroll += self.moneyWinOrLoose
-            
-            self.maniVinte += 1
-            self.winSeries += 1
-            
-            self.winSeriesAchievment()
-            // salvare eventuale achievement
-            
-        } else {
-            
-           // self.saveWinSeries(idLeaderBoard: "006_winSeriesClassic")
-            self.moneyWinOrLoose = self.pot
-            self.winSeries = 0
-         //   self.maniPerseFoldate += 1
-            
-        }
+     self.handsTime.append(timeConsumed) // beta per testare il tempo di risposta e creare un achievement
         
-        self.hands += 1
-        saveScores()
-        self.pot = 0.0
-        self.bet = 0.0
-        self.isBetLocked = false 
-        self.payOutAmplificator = 2.0
-        self.betLimitOnTurn = 2.0
+       switch combination {
+           
+       case .straightFlush:
+           combinationPoint = 40
+           if playerWin {achievementAccomplished(id: "009tb_straightFlush") }   // saved achievement I get straight flush
+       case .poker:
+           combinationPoint = 15
+       case .flush:
+           combinationPoint = 25
+       case .straight:
+           combinationPoint = 25
+       case .set:
+           combinationPoint = 40
+           if playerWin{achievementAccomplished(id: "010tb_setTheNut")}  // saved achievement Set the Nut
+       }
+       
+       if playerWin {
+           
+           self.winSeries += 1
+           if self.winSeries >= 15 {achievementAccomplished(id: "007tb_strike")} // saved achievement Amazing Strike
+           
+           let acceleratoreBySeries = 1 + (1 - (1 / self.winSeries))
+           let scoreFirstStep = combinationPoint * (1 + (3/timeConsumed))
+           
+           self.moneyWinOrLoose = scoreFirstStep * acceleratoreBySeries // score finale
         
-    }
+           self.maniVinte += 1
+           
+       
+       } else {
+           
+           // salvare il winSeries prima dell'azzeramento
+           saveWinSeries(idLeaderBoard: "007_winSeries")
+           self.moneyWinOrLoose = 0
+           self.winSeries = 0
+           
+       } // in caso di errore, non si perde nulla e la serie vincente viene azzerata
+       
+       self.hands += 1
+       self.bankroll += self.moneyWinOrLoose
+        if self.bankroll >= 1000 {achievementAccomplished(id: "008tb_scoreWall")} // saved achievement 1k Score Wall
+       
+   }
 
-    func reBuy() {
+   /* func reBuy() {
         
         self.rebuyAvaible = true
         self.rebuyCount += 1.0
         
         self.showAccessPoint(isActive: false)
-    }
+    } */
     
    /* func achievementAccomplished(id:String) {
     

@@ -13,9 +13,9 @@ struct ClassicGameSelectionView: View {
     var screenHeight:CGFloat
     
     // Animazione
-    let timer = Timer.publish(every: 0.5, on: .main, in: .common).autoconnect()
-    @State var scaleDimension: CGFloat = 1.0
-    @State var rotationAngle: Double = 2.0
+  //  let timer = Timer.publish(every: 0.5, on: .main, in: .common).autoconnect()
+  //  @State var scaleDimension: CGFloat = 1.0
+  //  @State var rotationAngle: Double = 2.0
     // end Animation
     
     var body: some View {
@@ -28,14 +28,17 @@ struct ClassicGameSelectionView: View {
                 .opacity(0.8)
                 .ignoresSafeArea()
             
-            Text("Classic")
-                .font(.system(size: screenWidth * 0.10, weight: .bold, design: .monospaced))
-                .foregroundColor(Color(CGColor(red: 1, green: 1, blue: 1, alpha: 1)))
-                .scaleEffect(scaleDimension)
-                .rotationEffect(.degrees(rotationAngle))
+        /*   Text("Got the Nut")
+                .font(.system(size: screenWidth * 0.15, weight: .bold, design: .monospaced))
+                .foregroundColor(Color.yellow)
+                .lineLimit(1)
+                .minimumScaleFactor(0.1) */
+               // .foregroundColor(Color(CGColor(red: 1, green: 1, blue: 1, alpha: 1)))
+               // .scaleEffect(scaleDimension)
+               // .rotationEffect(.degrees(rotationAngle))
               //  .padding(.bottom, screenWidth / 2)
             
-        }.onReceive(timer) { _ in
+        }/*.onReceive(timer) { _ in
       
             withAnimation(.easeInOut(duration: 0.5)) {
                 
@@ -43,7 +46,7 @@ struct ClassicGameSelectionView: View {
                 rotationAngle = rotationAngle == 2 ? -2.0 : rotationAngle + 4.0
             }
            
-        }
+        } */
     }
 }
 

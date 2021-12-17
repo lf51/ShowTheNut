@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct SpanishRulesView: View {
+struct SpanishRulesViewTB: View {
     var body: some View {
         Text("Hello, Espana!")
     }
@@ -15,6 +15,6 @@ struct SpanishRulesView: View {
 
 struct SpanishRulesView_Previews: PreviewProvider {
     static var previews: some View {
-        SpanishRulesView()
+        SpanishRulesViewTB()
     }
 }

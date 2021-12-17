@@ -6,8 +6,9 @@
 //
 
 import SwiftUI
+// da adattare al TB
 
-struct BankRollOverlayView: View {
+/* struct BankRollOverlayView: View {
     
     @ObservedObject var ga:GameAction
     
@@ -53,4 +54,4 @@ struct BankRollOverlayView: View {
             }
         })
     }
-}
+} */

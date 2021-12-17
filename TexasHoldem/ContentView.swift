@@ -7,30 +7,30 @@
 
 import SwiftUI
 
-/*
- 
- !!! TERMINATO 04.12.2021
- Verificare nel debug la consecuzio dei metodi attraverso i print e operare una prima/veloce pulizia del codice
- 
- Errore che non ci spieghiamo(Appare solo quando entriamo in Classic -- sia primo accesso che secondario--- non appare in TimeBank -- ne in primo accesso ne in secondo --):
- 
- 2021-12-04 17:48:06.350967+0100 TexasHoldem[37328:12095702] [Error] No platform string for specified GKGamePlatform value (0), defaulting to iOS.
-
- - Modificare le Rules --> √ Fatto
- 
- 
- */
-
 struct ContentView: View {
     
     var screenWidth:CGFloat = UIScreen.main.bounds.width
     var screenHeight:CGFloat = UIScreen.main.bounds.height
     
     @Binding var gameChoice: Int
-    var isNotPremium:Bool {
+    @Binding var inSecond: InSecondTB
+    
+   /* var isNotPremium:Bool {
         
         UserDefaults.standard.integer(forKey: "roundTB") == 5
-    }
+    } */
+    
+    var isLevelUnlocked:(level_2:Bool,level_3:Bool,level_4:Bool) = {
+        
+        let userDef = UserDefaults.standard
+        let l2 = userDef.bool(forKey: "isLevel2Unlock")
+        let l3 = userDef.bool(forKey: "isLevel3Unlock")
+        let l4 = userDef.bool(forKey: "isLevel4Unlock")
+        print("inside isLevelUnlocked")
+        return(l2,l3,l4)
+        
+    }()// la differenza con la computed classica, è che in questa forma (con = e ()) viene eseguita una volta (il print va in stampa una volta) mentre la classica 3 volte, una per ogni valore della tupla. Questa versione -- che non so come si chiama -- sembra dunque più efficiente.
+    
     
     var body: some View {
      
@@ -38,33 +38,105 @@ struct ContentView: View {
             
             Color.black.ignoresSafeArea()
             
-            VStack{
+            VStack {
                 
-                Button {
+                ZStack(alignment:.bottom) {
+                    
+                    ClassicGameSelectionView(screenWidth: screenWidth, screenHeight: screenHeight)
+                    
+                    Text("Got The Nut")
+                             .font(.system(size: screenWidth * 0.10, weight: .bold, design: .monospaced))
+                             .foregroundColor(Color.yellow)
+                             .frame(maxWidth:screenWidth)
+                             .frame(height: screenWidth * 0.12, alignment: .center)
+                             .padding()
+                             .background(Color(CGColor(red: 0, green: 0, blue: 0, alpha: 1)).opacity(0.5))
+                }
+                
+                
+             /*   Button {
                     
                     self.gameChoice = 1
                     
                 } label: {
                     ClassicGameSelectionView(screenWidth: screenWidth, screenHeight: screenHeight)
-                }.disabled(true)
+                }.disabled(true) */
            
-                Button {
+             /*   Button {
                     
                     self.gameChoice = 2
                     
                 } label: {
                     TimeBankSelectionView(screenWidth: screenWidth, screenHeight: screenHeight)
-                }.disabled(isNotPremium)
+                }.disabled(isNotPremium) */
+                
+                
+                
+                HStack {
+                    
+                    Button {
+                        
+                        self.gameChoice = 2
+                        self.inSecond = .level_1
+                        
+                    } label: {
+                        
+                        TimeBankSelectionView(screenWidth: screenWidth, screenHeight: screenHeight, inSecond: .level_1, isLevelUnlocked: true, clockColor: Color(red: 0, green: 0.5603182912, blue: 0))
+                    }//always open
+
+                    
+                    Button {
+                        
+                        self.gameChoice = 2
+                        self.inSecond = .level_2
+                        
+                    } label: {
+                        
+                        TimeBankSelectionView(screenWidth: screenWidth, screenHeight: screenHeight, inSecond: .level_2, isLevelUnlocked: isLevelUnlocked.level_2, clockColor: Color(red: 0.45, green: 0, blue: 0))
+                        
+                    }.disabled(!isLevelUnlocked.level_2)
+                                    
+                    
+                }
+                
+                HStack {
+                    
+                    Button {
+                        
+                        self.gameChoice = 2
+                        self.inSecond = .level_3
+                        
+                    } label: {
+                        
+                        TimeBankSelectionView(screenWidth: screenWidth, screenHeight: screenHeight, inSecond: .level_3, isLevelUnlocked: isLevelUnlocked.level_3, clockColor: Color(red: 0, green: 0.1, blue: 0.6))
+                        
+                    }.disabled(!isLevelUnlocked.level_3)
+                   
+                    Button {
+                        
+                        self.gameChoice = 2
+                        self.inSecond = .level_4
+                        
+                    } label: {
+                        
+                        TimeBankSelectionView(screenWidth: screenWidth, screenHeight: screenHeight, inSecond: .level_4, isLevelUnlocked: isLevelUnlocked.level_4, clockColor: Color(red: 0.6, green: 0.5, blue: 0))
+                        
+                    }.disabled(!isLevelUnlocked.level_4)
+                    
+                    
+                    
+                }
+                
      
             }
             
-            Text("Show The Nut")
+         /*  Text("Show The Nut")
                     .font(.system(size: screenWidth * 0.10, weight: .bold, design: .monospaced))
                     .foregroundColor(Color.yellow)
                     .frame(maxWidth:screenWidth)
                     .frame(height: screenWidth * 0.12, alignment: .center)
                     .padding()
-                    .background(Color(CGColor(red: 0, green: 0, blue: 0, alpha: 1)).opacity(0.5))
+                    .background(Color(CGColor(red: 0, green: 0, blue: 0, alpha: 1)).opacity(0.5)) */
         }
     }
     

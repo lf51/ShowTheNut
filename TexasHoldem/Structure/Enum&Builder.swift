@@ -17,39 +17,14 @@ enum PossibleResults {
     case set
 }
 
-/*enum ChipsValue: Float {
+enum InSecondTB:Float {
     
-    case ten = 100
-    case five = 5
-    case one = 1
-    case c
-    case all
-    case fiftyCent = 0.50
-        
-}*/
-
-/*enum ChipsValue{
-    
-    case high(value:String)
-    case middle(value:String)
-    case big(value:String)
-    case small(value:String)
-    case c
-    case all
+    case level_1 = 60
+    case level_2 = 45
+    case level_3 = 30
+    case level_4 = 15
     
 }
-
-enum TableLevel:String {
-    
-    case green = "50c - 1"
-    case red = "2 - 5"
-    case blue = "5 - 10"
-    case gold = "15 - 30"
-    case black = "50 - 100"
-    case iceBlack = "250 - 500"
-
-} */
-
 
 @resultBuilder
 struct AchievementManager {

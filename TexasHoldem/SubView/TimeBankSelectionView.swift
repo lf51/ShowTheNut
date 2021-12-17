@@ -11,25 +11,31 @@ struct TimeBankSelectionView: View {
     
     var screenWidth:CGFloat
     var screenHeight:CGFloat
-    
+    var inSecond:InSecondTB
     // Animazione
     let timer = Timer.publish(every: 0.5, on: .main, in: .common).autoconnect()
     @State var scaleDimension: CGFloat = 1.0
-    @State var rotationAngle: Double = -2.0
+    @State var rotationAngle: Double = 0.0
     // end Animation
    
-    var roundTB:Int = 5
+   /* var roundTB:Int = 5
     var isPremium:Bool {
         
         self.roundTB != 0
-    }
+    } */
 
-    init(screenWidth:CGFloat,screenHeight:CGFloat) {
+    var isLevelUnlocked: Bool
+    var clockColor:Color
+    
+    init(screenWidth:CGFloat,screenHeight:CGFloat, inSecond:InSecondTB, isLevelUnlocked:Bool, clockColor:Color ) {
         
         self.screenWidth = screenWidth
         self.screenHeight = screenHeight
+        self.inSecond = inSecond
         
-        self.roundTB = 5 - UserDefaults.standard.integer(forKey: "roundTB")
+        self.isLevelUnlocked = isLevelUnlocked
+        self.clockColor = clockColor
+    //    self.roundTB = 5 - UserDefaults.standard.integer(forKey: "roundTB")
         
     }
     
@@ -39,51 +45,61 @@ struct TimeBankSelectionView: View {
             
             Image("ClassicGame")
                 .resizable()
-                .frame(width: screenWidth, height: screenHeight / 2, alignment: .center)
+                .frame(width: screenWidth * 0.5, height: screenHeight * 0.25, alignment: .center)
                 .opacity(0.2)
                 .edgesIgnoringSafeArea(.bottom)
             
             Image(systemName: "clock.fill")
                 .resizable()
                 .scaledToFit()
-                .foregroundColor(Color.yellow)
+                .scaleEffect(scaleDimension)
+                //.rotationEffect(.degrees(rotationAngle))
+                .foregroundColor(clockColor)
                 .padding()
-                .frame(width: screenWidth, height: screenHeight / 2, alignment: .center)
-                .opacity(0.2)
+                .frame(width: screenWidth * 0.5, height: screenHeight * 0.25, alignment: .center)
+                .opacity(isLevelUnlocked ? 0.6 : 0.2)
                 .edgesIgnoringSafeArea(.bottom)
             
             VStack {
-  
-                Text("TimeBank 60'")
-                    .font(.system(size: screenWidth * 0.10, weight: .bold, design: .monospaced))
-                    .foregroundColor(Color(CGColor(red: 1, green: 1, blue: 1, alpha: 1)))
-                    .scaleEffect(scaleDimension)
-                    .rotationEffect(.degrees(rotationAngle))
-                    .padding(.top, screenWidth * 0.4) // modificare per ipad
-                
-                HStack {
-                    Image(systemName: isPremium ? "lock.open" : "lock")
-                    Text("\(roundTB)/5 left")
-                    
+    
+                VStack() {
+         
+                    Text("\(inSecond.rawValue,specifier: "%.0f")'")
+                        .font(.system(size: screenWidth * 0.05, weight: .bold, design: .monospaced))
+                        
+                       // .foregroundColor(Color(CGColor(red: 1, green: 1, blue: 1, alpha: 1)))
+                      //  .padding(.leading,screenWidth * 0.03)
+                    //  .scaleEffect(scaleDimension)
+                       // .rotationEffect(.degrees(rotationAngle))
+                      //  .padding(.top, screenWidth * 0.15) // modificare per ipad
+                    Image(systemName: isLevelUnlocked ? "lock.open" : "lock")
+                        .font(.system(size: screenWidth * 0.1, weight: .bold, design: .monospaced))
+                      //  .opacity(isLevelUnlocked ? 1.0 : 0.4)
+                        
+                 
                 }
-                .font(.system(size: screenWidth * 0.05, weight: .bold, design: .monospaced))
+               // .font(.system(size: screenWidth * 0.05, weight: .bold, design: .monospaced))
                 .foregroundColor(Color(CGColor(red: 1, green: 1, blue: 1, alpha: 1)))
-               // .padding(.top, screenWidth / 2)
+                .opacity(isLevelUnlocked ? 1.0 : 0.4)
+                .padding(.leading,(screenWidth * 0.03))
+                .padding(.top, screenWidth * 0.12)
+                
+                //Text("\(roundTB)/5 left") // si può visualizzare il best score
             }
             
         }.onReceive(timer) { _ in
             
             withAnimation(.easeInOut(duration: 0.5)) {
                 
-                if isPremium {
+                if isLevelUnlocked {
                     
                     scaleDimension = scaleDimension == 1.0 ? 0.9 : scaleDimension + 0.1
-                    rotationAngle = rotationAngle == -2 ? 2.0 : rotationAngle - 4.0
+                  //  rotationAngle += (360 / Double(inSecond.rawValue))
                 
                 } else {
                     
                     scaleDimension = 1.0
-                    rotationAngle = 0.0
+                 //   rotationAngle = 0.0
                     
                 }
                 

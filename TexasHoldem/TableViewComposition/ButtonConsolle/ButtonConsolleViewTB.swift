@@ -31,10 +31,10 @@ struct ButtonConsolleViewTB: View {
         
     } */
     
-    @State var buttonColor: CGFloat = 1.0
+    @State var buttonColor: Float = 1.0
     @State var startCount = false
     
-    var isPremiumCheck:Bool { UserDefaults.standard.integer(forKey: "roundTB") == 5}
+   // var isPremiumCheck:Bool { UserDefaults.standard.integer(forKey: "roundTB") == 5} // Serviva a bloccare il pulsante qualore durante la partita scattava il 5° round. Si può riciclare per far scattare l'ads
     
     var body: some View {
         
@@ -55,8 +55,9 @@ struct ButtonConsolleViewTB: View {
                     
                     Circle()
                         .frame(height: buttonSize.frameHeight * 1.5)
-                        .foregroundColor(vm.stepCount == 0 ? Color.blue : Color(red: (1 - buttonColor), green: buttonColor, blue: 0.0))
-                        .shadow(color: Color.black, radius: isPremiumCheck || vm.stepCount != 0 ? 0.0 : 5.0)
+                        .foregroundColor(vm.stepCount == 0 ? Color.blue : Color(red: (1 - Double(buttonColor)), green: Double(buttonColor), blue: 0.0))
+                        //.shadow(color: Color.black, radius: /*isPremiumCheck ||*/ vm.stepCount != 0 ? 0.0 : 5.0)
+                        .shadow(color: Color.black, radius: vm.stepCount != 0 ? 0.0 : 5.0)
                         .overlay(
                         
                             Text(vm.stepCount == 0 ? "Deal" : "\(ga.countDown,specifier: "%.2f")")
@@ -64,9 +65,11 @@ struct ButtonConsolleViewTB: View {
                                 .foregroundColor(Color.white)
                         
                         )
-                        .opacity(isPremiumCheck ? 0.6 : 1.0)
+                       // .opacity(isPremiumCheck ? 0.6 : 1.0)
+                       
                       
-                }).disabled(vm.stepCount != 0 || isPremiumCheck)
+                }).disabled(vm.stepCount != 0)
+               // .disabled(vm.stepCount != 0 || isPremiumCheck)
      
         }.onReceive(ga.timer) { _ in
            
@@ -75,7 +78,7 @@ struct ButtonConsolleViewTB: View {
                 if ga.countDown > 0 {
                     
                     ga.countDown -= 0.01
-                    buttonColor -= 0.000166 // == 1 / (60 sec * 100)
+                    buttonColor -= (1 / (ga.inSecond.rawValue * 100))
                 }
                 else  {
                     vm.areCardsUnpickable = true

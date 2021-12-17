@@ -10,13 +10,13 @@
 import SwiftUI
 
 struct TimeBankView: View {
-    
-    @StateObject var ga: GameAction = GameActionTB()
-    @StateObject var vm: AlgoritmoGioco = AlgoritmoTB()
-  //  @StateObject var gl: GameLevel = GameLevel()
 
-    var screenHeight = UIScreen.main.bounds.height
-    var screenWidth = (UIScreen.main.bounds.width * 0.70)
+  // @StateObject var ga: GameAction //= GameAction()
+    @ObservedObject var ga: GameAction //= GameAction()
+    @StateObject var vm: AlgoritmoGioco = AlgoritmoGioco()
+
+    var screenHeight:CGFloat = UIScreen.main.bounds.height
+    var screenWidth:CGFloat = (UIScreen.main.bounds.width * 0.70)
   
     var idiomDevice = UIDevice.current.userInterfaceIdiom
     
@@ -30,14 +30,23 @@ struct TimeBankView: View {
     @State private var showRules:Bool = false
     @Binding var exit:Int 
     
+    init(inSecond:InSecondTB, exit:Binding<Int>) {
+        
+        self.ga = GameAction(inSecond: inSecond)
+        _exit = exit
+    }
+    
+    
     var body: some View {
         
         ZStack {
         
             
            // Color(#colorLiteral(red: 0, green: 0.5603182912, blue: 0, alpha: 1)).ignoresSafeArea()
-           Color(red: 0, green: 0.5603182912, blue: 0)
+          // Color(red: 0, green: 0.5603182912, blue: 0)
+           // Color(red: 0, green: 0.1, blue: 0.6)
            // Color(gl.tableColor)
+            ga.colorTable
                 .ignoresSafeArea()
             
            /* Image("logo")
