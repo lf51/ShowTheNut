@@ -22,7 +22,7 @@ struct TexasHoldemApp: App {
     
     @StateObject var apGK: AuthPlayerGK = AuthPlayerGK.instance
     
-    @State var gameChoice:Int = 0
+    @State var gameChoice:Int = 1
     @State var tbGameLevel:GameLevelTB = .one
     
     init() {
@@ -37,7 +37,7 @@ struct TexasHoldemApp: App {
     var body: some Scene {
         
         WindowGroup {
-
+            
             if gameChoice == 0 {
                 ContentView(apGK: apGK, gameChoice: $gameChoice, tbGameLevel:$tbGameLevel)
                     .overlay(
@@ -46,12 +46,9 @@ struct TexasHoldemApp: App {
                             if apGK.isLoading {CustomLoadingView()}
                             
                             else if apGK.showError ?? false {ErrorOverlayViewTB(apGK:apGK) }
-                            
-                            
+                                                        
                         }
-            )
-                
-                
+                    )
             }
 
             else if gameChoice == 2 {
@@ -59,9 +56,7 @@ struct TexasHoldemApp: App {
                 TimeBankView(ga: GameAction(tbGameLevel: tbGameLevel, localPlayerAuth: apGK.localPlayerAuth), exit: $gameChoice)
                 .transition(AnyTransition.opacity.animation(Animation.easeIn(duration: 1.0)))}
 
-        }/*.onChange(of:AuthPlayerGK.achievCount) { _ in
-            apGK.loadAchievementDone()
-        } */
+        }
     }
 }
 

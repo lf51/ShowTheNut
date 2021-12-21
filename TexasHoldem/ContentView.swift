@@ -46,7 +46,7 @@ struct ContentView: View {
                     
                     ClassicGameSelectionView(screenWidth: screenWidth, screenHeight: screenHeight)
                     
-                    Text("Got The Nut")
+                    Text("Get The Nut")
                              .font(.system(size: screenWidth * 0.10, weight: .bold, design: .monospaced))
                              .foregroundColor(Color.yellow)
                              .frame(maxWidth:screenWidth)

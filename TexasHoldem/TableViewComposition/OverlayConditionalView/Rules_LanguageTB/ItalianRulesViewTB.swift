@@ -16,17 +16,19 @@ struct ItalianRulesViewTB: View {
         VStack {
           //  Spacer()
             
-            Text("Show the Nut") // Show the Nut // Hunt the Nut //
+            Text("Get the Nut") // Show the Nut // Hunt the Nut //
                 .font(.system(size: fontSize * 1.4, weight: .bold, design: .monospaced))
                 .foregroundColor(Color.purple)
                 .padding(.vertical)
             
-            Text("TimeBank 60'")
+            Text("• Livello 1 -> 10 Nuts in 60' per il livello 2\n• Livello 2 -> 9 Nuts in 45' per il livello 3\n• Livello 3 -> 8 Nuts in 30' per il livello 4\n• Livello 4 -> 5 Nuts in 15' per completare\n\n")
+            
+            Text("Regole")
                 .font(.system(size: fontSize * 1.2, weight: .bold, design: .monospaced))
                  .foregroundColor(Color.purple)
                  .padding(.bottom)
                         
-            Text("• Il giocatore dispone di 60 secondi per indovinare quante più 'Mani Nut' possibili.\n\n• Il giocatore ha facoltà di scegliere le proprie carte subito dopo il flop.")
+            Text("• Per ogni livello di gioco si dispone di un timebank per indovinare quante più 'Mani Nut' possibili;\n\n• il giocatore ha facoltà di scegliere le proprie carte subito dopo il flop;\n\n• il tempo rallenta con l'ottenimento dei seguenti punti:\n\n• Scala reale -> 20%\n• Scala reale con 5/3 di picche -> 15% (oltre bonus Scala reale se non già ottenuto)\n• Set -> 20%\n• Poker/Scala/Colore -> 5%\n\n• I bonus sono ottenibili una sola volta e sono cumulativi;\n• bonus Massimo -> 70%\n• in caso di errore i bonus si azzerano e possono essere ottenuti nuovamente;\n• alla destra del timer il giocatore può visualizzare l'intensità del bonus.")
             
            
             
@@ -43,3 +45,5 @@ struct ItalianRulesViewTB: View {
         .padding()
     }
 }
+
+
