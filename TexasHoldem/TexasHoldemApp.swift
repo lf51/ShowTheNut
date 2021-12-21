@@ -22,7 +22,7 @@ struct TexasHoldemApp: App {
     
     @StateObject var apGK: AuthPlayerGK = AuthPlayerGK.instance
     
-    @State var gameChoice:Int = 1
+    @State var gameChoice:Int = 0
     @State var tbGameLevel:GameLevelTB = .one
     
     init() {
