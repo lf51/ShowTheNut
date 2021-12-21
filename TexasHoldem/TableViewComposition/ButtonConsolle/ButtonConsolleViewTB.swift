@@ -22,14 +22,6 @@ struct ButtonConsolleViewTB: View {
         else {return ((screenWidth * 0.12),((screenWidth / 4) * 0.15))}
         
     }
-  
-  /* var buttonColor: Color {
-        
-        if ga.countDown > 180 * 0.5 {return .green }
-        else if ga.countDown > 180 * 0.25 {return .yellow }
-        else {return .red}
-        
-    } */
     
     @State var buttonColor: Float = 1.0
     @State var startCount = false
@@ -53,6 +45,7 @@ struct ButtonConsolleViewTB: View {
                 },
                        label: {
                     
+                    
                     Circle()
                         .frame(height: buttonSize.frameHeight * 1.5)
                         .foregroundColor(vm.stepCount == 0 ? Color.blue : Color(red: (1 - Double(buttonColor)), green: Double(buttonColor), blue: 0.0))
@@ -68,6 +61,8 @@ struct ButtonConsolleViewTB: View {
                        // .opacity(isPremiumCheck ? 0.6 : 1.0)
                        
                       
+                    
+                    
                 }).disabled(vm.stepCount != 0)
                // .disabled(vm.stepCount != 0 || isPremiumCheck)
      
@@ -77,12 +72,13 @@ struct ButtonConsolleViewTB: View {
                 
                 if ga.countDown > 0 {
                     
-                    ga.countDown -= 0.01
-                    buttonColor -= (1 / (ga.inSecond.rawValue * 100))
+                    ga.countDown -= ga.timerSection
+                    buttonColor -= (1 / ((ga.tbGameLevel.rawValue * 100) * 0.01/ga.timerSection))
                 }
                 else  {
                     vm.areCardsUnpickable = true
-                    ga.isGameEnded = true 
+                    ga.isGameEnded = true
+                    buttonColor = 1.0
                 }
                 
                

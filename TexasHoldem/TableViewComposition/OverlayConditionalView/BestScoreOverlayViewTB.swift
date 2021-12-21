@@ -66,7 +66,7 @@ struct BestScoreOverlayViewTB: View {
                 VStack {
                  
                    VStack(spacing:sizing.lineSpacing) {
-                        Text("Show The Nut - TB60'")
+                       Text("Got The Nut - TB\(Int(ga.tbGameLevel.rawValue))'")
                            .font(.system(size: sizing.fontSizePlayerWin * 1.1, weight: .bold, design: .monospaced))
                       //  Text("\(ga.hands,specifier: "%.0f")").foregroundColor(Color.purple)
                        // Text("Best Streak:")

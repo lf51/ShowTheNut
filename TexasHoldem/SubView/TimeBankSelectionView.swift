@@ -11,7 +11,7 @@ struct TimeBankSelectionView: View {
     
     var screenWidth:CGFloat
     var screenHeight:CGFloat
-    var inSecond:InSecondTB
+    var tbGameLevel:GameLevelTB
     // Animazione
     let timer = Timer.publish(every: 0.5, on: .main, in: .common).autoconnect()
     @State var scaleDimension: CGFloat = 1.0
@@ -24,16 +24,16 @@ struct TimeBankSelectionView: View {
         self.roundTB != 0
     } */
 
-    var isLevelUnlocked: Bool
+    var isLevelLocked: Bool
     var clockColor:Color
     
-    init(screenWidth:CGFloat,screenHeight:CGFloat, inSecond:InSecondTB, isLevelUnlocked:Bool, clockColor:Color ) {
+    init(screenWidth:CGFloat,screenHeight:CGFloat, tbGameLevel:GameLevelTB, isLevelLocked:Bool, clockColor:Color ) {
         
         self.screenWidth = screenWidth
         self.screenHeight = screenHeight
-        self.inSecond = inSecond
+        self.tbGameLevel = tbGameLevel
         
-        self.isLevelUnlocked = isLevelUnlocked
+        self.isLevelLocked = isLevelLocked
         self.clockColor = clockColor
     //    self.roundTB = 5 - UserDefaults.standard.integer(forKey: "roundTB")
         
@@ -57,14 +57,14 @@ struct TimeBankSelectionView: View {
                 .foregroundColor(clockColor)
                 .padding()
                 .frame(width: screenWidth * 0.5, height: screenHeight * 0.25, alignment: .center)
-                .opacity(isLevelUnlocked ? 0.6 : 0.2)
+                .opacity(isLevelLocked ? 0.2 : 0.6)
                 .edgesIgnoringSafeArea(.bottom)
             
             VStack {
     
                 VStack() {
          
-                    Text("\(inSecond.rawValue,specifier: "%.0f")'")
+                    Text("\(tbGameLevel.rawValue,specifier: "%.0f")'")
                         .font(.system(size: screenWidth * 0.05, weight: .bold, design: .monospaced))
                         
                        // .foregroundColor(Color(CGColor(red: 1, green: 1, blue: 1, alpha: 1)))
@@ -72,7 +72,7 @@ struct TimeBankSelectionView: View {
                     //  .scaleEffect(scaleDimension)
                        // .rotationEffect(.degrees(rotationAngle))
                       //  .padding(.top, screenWidth * 0.15) // modificare per ipad
-                    Image(systemName: isLevelUnlocked ? "lock.open" : "lock")
+                    Image(systemName: isLevelLocked ? "lock" : "lock.open")
                         .font(.system(size: screenWidth * 0.1, weight: .bold, design: .monospaced))
                       //  .opacity(isLevelUnlocked ? 1.0 : 0.4)
                         
@@ -80,7 +80,7 @@ struct TimeBankSelectionView: View {
                 }
                // .font(.system(size: screenWidth * 0.05, weight: .bold, design: .monospaced))
                 .foregroundColor(Color(CGColor(red: 1, green: 1, blue: 1, alpha: 1)))
-                .opacity(isLevelUnlocked ? 1.0 : 0.4)
+                .opacity(isLevelLocked ? 0.4 : 1.0)
                 .padding(.leading,(screenWidth * 0.03))
                 .padding(.top, screenWidth * 0.12)
                 
@@ -91,10 +91,10 @@ struct TimeBankSelectionView: View {
             
             withAnimation(.easeInOut(duration: 0.5)) {
                 
-                if isLevelUnlocked {
+                if !isLevelLocked {
                     
                     scaleDimension = scaleDimension == 1.0 ? 0.9 : scaleDimension + 0.1
-                  //  rotationAngle += (360 / Double(inSecond.rawValue))
+                  //  rotationAngle += (360 / Double(tbGameLevel.rawValue))
                 
                 } else {
                     

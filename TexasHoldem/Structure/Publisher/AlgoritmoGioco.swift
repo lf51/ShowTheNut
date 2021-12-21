@@ -102,7 +102,7 @@ class AlgoritmoGioco: ObservableObject {
     var mazzoA:[String] = []
     var mazzoB:[String] = []
     
-    /* LINEA TEST */  var mazzoTest:[String] = ["11c","05f","01c","13p","02p","10c","13c","12c","05p"]
+    /* LINEA TEST */ // var mazzoTest:[String] = ["01p","02p","13c","09c","02c","06q","13q","12c","05p"]
     
        
     func smazzata() -> (mazzoIntero:[String],mazzoA:[String],mazzoB:[String]) {
@@ -713,9 +713,9 @@ class AlgoritmoGioco: ObservableObject {
                             
                             self.mazzoA = self.temporaryStudCards
                          
-    /* Linea Corretta */   self.shuffledCards = self.temporaryStudCards // Qui abbiamo il mazzo smazzato con cui giocare
+    /* LIENA CORRETTA */  self.shuffledCards = self.temporaryStudCards // Qui abbiamo il mazzo smazzato con cui giocare
                             
-    /* LINEA TEST */ // self.shuffledCards = self.mazzoTest // Da eliminare
+    /* LINEA TEST */ //  self.shuffledCards = self.mazzoTest // Da eliminare
   
                             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                                 self.deal()

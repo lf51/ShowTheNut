@@ -12,7 +12,7 @@ struct CustomLoadingView: View {
         
         ZStack{
             
-            Color.black.opacity(0.2).ignoresSafeArea()
+            Color.black.opacity(0.8).ignoresSafeArea()
             
             ProgressView().scaleEffect(2)
             

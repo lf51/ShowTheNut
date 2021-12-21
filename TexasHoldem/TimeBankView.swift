@@ -12,7 +12,7 @@ import SwiftUI
 struct TimeBankView: View {
 
   // @StateObject var ga: GameAction //= GameAction()
-    @ObservedObject var ga: GameAction //= GameAction()
+    @StateObject var ga: GameAction //= GameAction()
     @StateObject var vm: AlgoritmoGioco = AlgoritmoGioco()
 
     var screenHeight:CGFloat = UIScreen.main.bounds.height
@@ -28,13 +28,15 @@ struct TimeBankView: View {
     }
     
     @State private var showRules:Bool = false
-    @Binding var exit:Int 
+    @Binding var exit:Int
+   // @State private var showAds:Bool
     
-    init(inSecond:InSecondTB, exit:Binding<Int>) {
+  /*  init(tbGameLevel:GameLevelTB, exit:Binding<Int>, localPlayerAuth:Bool) {
         
-        self.ga = GameAction(inSecond: inSecond)
+        self.ga = GameAction(tbGameLevel: tbGameLevel,localPlayerAuth: localPlayerAuth)
         _exit = exit
-    }
+ print("init TimeBankView")
+    } */
     
     
     var body: some View {
@@ -120,6 +122,10 @@ struct TimeBankView: View {
                         .offset(x:(screenWidth/2.3))
                         .padding(.bottom)
                     
+                    TimerFreezingIndicator(ga:ga, screenWidth: screenWidth)
+                        .offset(x:(screenWidth/1.58))
+                        .padding(.bottom)
+                    
                 }
             }
           
@@ -127,22 +133,23 @@ struct TimeBankView: View {
             
             if step {
                 
-                ga.resultAttribution(playerWin: vm.playerWin, combination: vm.highestCombination!)
+                ga.resultAttribution(playerWin: vm.playerWin, combination: vm.highestCombination!,nutCards: vm.nutsCards)
                 
                 SoundManager.instance.playSound(sound: vm.playerWin ? .success : .lose)
                 print("------stepCount---------:\(vm.stepCount)")
                 
             } else {print("------stepCount with No Attribution---------:\(vm.stepCount)")}
     
-        }.onChange(of: ga.isGameEnded, perform: { isGameTermineted in
+        }.onChange(of: ga.isGameEnded, perform: { isGameTerminated in
             
-            if isGameTermineted {
+            if isGameTerminated {
                 
                 ga.showAccessPoint(isActive: true)
                 ga.compareScore()
                 
             }
         })
+        
        /* .onChange(of: ga.bankroll, perform: { newValue in
            
             if vm.stepCount == 0 {
@@ -167,8 +174,6 @@ struct TimeBankView: View {
                          
                     RulesOverlayViewTB(idiomDevice:idiomDevice,screenWidth:screenWidth, dismiss: $showRules) }
                 
-                else if ga.isLoading {CustomLoadingView() }
-                // if vm.stepCount == 9
                     FinalResultOverlayViewTB(vm:vm,ga:ga,idiomDevice: idiomDevice)
                 //
             }
