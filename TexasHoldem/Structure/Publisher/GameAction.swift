@@ -36,6 +36,7 @@ class GameAction: ObservableObject {
     // Variabili il cui valore viene recuperato dal server GameKit
     
     @Published var bankroll: Float = 0.0
+    var storedBankRoll: Float = 0.0
     @Published var hands: Float = 0.0 // le mani totali giocate
     @Published var maniVinte:Float = 0.0 // qui contiamo le mani vinte // il valore lo importiamo dalla leaderBoard, ricavandolo dal WinRate salvato. Questo perchè il win rate qui è una computed, la maniVintePercent, il che, per ovviare all'impostazione di un setter, ricalcoliamo andando ad estrapolare questo valore e ricombinandolo con le maniGiocate (Hands), anch'esso un valore salvato nella leaderBoard. Valutiamo l'impostazione del setter in maniVintePercent
     
@@ -165,7 +166,7 @@ class GameAction: ObservableObject {
         self.isGameEnded = false
         self.hands = 0
         self.maniVinte = 0
-        self.bankroll = 0
+        self.bankroll = self.storedBankRoll
         self.countDown = self.tbGameLevel.rawValue
         self.storedCountDown = self.tbGameLevel.rawValue
         self.winSeries = 0
@@ -219,7 +220,9 @@ class GameAction: ObservableObject {
              
              if let preLeaderBoard = self.tbPreLeaderBoard {
                  
-                 self.bankroll = document?.get(preLeaderBoard.rawValue) as! Float
+              //   self.bankroll = document?.get(preLeaderBoard.rawValue) as! Float
+                 self.storedBankRoll = document?.get(preLeaderBoard.rawValue) as! Float
+                 self.bankroll = self.storedBankRoll
                  
              } else {self.bankroll = 0}
 
