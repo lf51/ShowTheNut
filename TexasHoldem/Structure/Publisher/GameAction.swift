@@ -287,7 +287,7 @@ class GameAction: ObservableObject {
          let extendedScore = self.rebuyCount * 100
          let intScore = Int(extendedScore)
          
-       GKLeaderboard.submitScore(intScore, context: 1, player: GKLocalPlayer.local, leaderboardIDs: [LeaderBoardsName.generalScore_005TB.rawValue]) { error in // salviamo sempre sulla stessa leaderBoards
+       GKLeaderboard.submitScore(intScore, context: 1, player: GKLocalPlayer.local, leaderboardIDs: [LeaderBoardsName.generalScore_005TBnew.rawValue]) { error in // salviamo sempre sulla stessa leaderBoards
              
              guard error == nil else {
                  print("Error in submitScore to ScoreTB:\(error.debugDescription.description)")
@@ -359,7 +359,7 @@ class GameAction: ObservableObject {
        
      let timeConsumed = self.storedCountDown - self.countDown
         
-     if playerWin && timeConsumed <= 1.0 {achievementAccomplished(id: "006tb_fasterHand") } // Save Achievement faster hand
+     if playerWin && timeConsumed <= 1.0 {achievementAccomplished(id: "fasterHand_006tb") } // Save Achievement faster hand
         
      let combinationPoint:Float
         
@@ -370,7 +370,7 @@ class GameAction: ObservableObject {
        case .straightFlush:
            combinationPoint = 40
            if playerWin {
-               achievementAccomplished(id: "009tb_straightFlush")// saved achievement I get straight flush
+               achievementAccomplished(id: "straightFlush_009tb")// saved achievement I get straight flush
                self.timerSection -= self.straighFlushDone ? 0 : TimerSection.booster_2.rawValue
                self.straighFlushDone = true
                if nutCards.contains("05p") && nutCards.contains("03p"){
@@ -400,7 +400,7 @@ class GameAction: ObservableObject {
        case .set:
            combinationPoint = 40
            if playerWin{
-               achievementAccomplished(id: "010tb_setTheNut") // saved achievement Set the Nut
+               achievementAccomplished(id: "setTheNut_010tb") // saved achievement Set the Nut
                self.timerSection -= self.setDone ? 0 : TimerSection.booster_2.rawValue
                self.setDone = true
            }
@@ -410,7 +410,7 @@ class GameAction: ObservableObject {
        if playerWin {
            
            self.winSeries += 1
-          // if self.winSeries >= 15 {achievementAccomplished(id: "007tb_strike")} // saved achievement Amazing Strike
+          // if self.winSeries >= 15 {achievementAccomplished(id: "strike_007tb")} // saved achievement Amazing Strike
            self.checkWinSeriesAchievement()
            
            let acceleratoreBySeries = 1 + (1 - (1 / self.winSeries))
@@ -443,7 +443,7 @@ class GameAction: ObservableObject {
        self.hands += 1
        self.bankroll += self.moneyWinOrLoose
         
-      //  if self.bankroll >= 100/*1000*/ {achievementAccomplished(id: "008tb_scoreWall")} // saved achievement 1k Score Wall // achievement sospeso da quando abbiamo creato più livelli con general score cumulativo
+      //  if self.bankroll >= 100/*1000*/ {achievementAccomplished(id: "scoreWall_008tb")} // saved achievement 1k Score Wall // achievement sospeso da quando abbiamo creato più livelli con general score cumulativo
        
    }
     
@@ -463,22 +463,22 @@ class GameAction: ObservableObject {
             
         case .one:
             if !levelAchieDone && self.winSeries >= tbGameLevel.rawValue / 6.0 { // requisito per passare di livello
-                achievementAccomplished(id: "level2TB_016")
+                achievementAccomplished(id: "level2_016tb")
               //  AuthPlayerGK.achievCount += 1
                 AuthPlayerGK.instance.isLocked.level2 = false 
                 self.levelAchieDone = true
             }
-            if self.winSeries >= 15 {achievementAccomplished(id: "007tb_strike")} // saved achievement Amazing Strike
+            if self.winSeries >= 15 {achievementAccomplished(id: "strike_007tb")} // saved achievement Amazing Strike
         case .two:
             if !levelAchieDone && self.winSeries >= tbGameLevel.rawValue / 5.0 {
-                achievementAccomplished(id: "level3TB_017")
+                achievementAccomplished(id: "level3_017tb")
                 AuthPlayerGK.instance.isLocked.level3 = false
               //  AuthPlayerGK.achievCount += 1
                 self.levelAchieDone = true
             }
         case .three:
             if !levelAchieDone && self.winSeries >= tbGameLevel.rawValue / 4.0 {
-                achievementAccomplished(id: "level4TB_018")
+                achievementAccomplished(id: "level4_018tb")
                 AuthPlayerGK.instance.isLocked.level4 = false 
                // AuthPlayerGK.achievCount += 1
                 self.levelAchieDone = true
@@ -486,7 +486,7 @@ class GameAction: ObservableObject {
         case .four:
             if !levelAchieDone && self.winSeries >= tbGameLevel.rawValue / 3.0 { // requisito per vincere
                 // disporre Achievment di Vittoria
-                achievementAccomplished(id: "levelEndTB_019")
+                achievementAccomplished(id: "levelEnd_019tb")
               // AuthPlayerGK.achievCount += 1
                 self.levelAchieDone = true
                 print("Player Won All level") }

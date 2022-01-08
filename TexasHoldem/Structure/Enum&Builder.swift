@@ -36,7 +36,7 @@ enum TimerSection:Float {
 
 enum LeaderBoardsName:String {
     
-    case generalScore_005TB
+    case generalScore_005TBnew
     case score60_001TB
     case score45_002TB
     case score30_003TB

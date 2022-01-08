@@ -28,7 +28,7 @@ struct ClassicGameSelectionView: View {
                 .opacity(0.8)
                 .ignoresSafeArea()
             
-        /*   Text("Get the Nut")
+        /*   Text("Show The Nut")
                 .font(.system(size: screenWidth * 0.15, weight: .bold, design: .monospaced))
                 .foregroundColor(Color.yellow)
                 .lineLimit(1)

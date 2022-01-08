@@ -16,7 +16,7 @@ struct EnglishRulesViewTB: View {
         VStack {
           //  Spacer()
             
-            Text("Get the Nut") // Show the Nut // Hunt the Nut //
+            Text("Show The Nut") // Show the Nut // Hunt the Nut //
                 .font(.system(size: fontSize * 1.4, weight: .bold, design: .monospaced))
                 .foregroundColor(Color.purple)
                 .padding(.vertical)

@@ -88,9 +88,9 @@ class AuthPlayerGK: ObservableObject {
                 
                 self.isLocked = {
                     
-                    let l2:Bool = !self.achievementsDone.contains("level2TB_016")
-                    let l3:Bool = !self.achievementsDone.contains("level3TB_017")
-                    let l4:Bool = !self.achievementsDone.contains("level4TB_018")
+                    let l2:Bool = !self.achievementsDone.contains("level2_016tb")
+                    let l3:Bool = !self.achievementsDone.contains("level3_017tb")
+                    let l4:Bool = !self.achievementsDone.contains("level4_018tb")
                     
                     return (l2,l3,l4)
                     
