@@ -135,7 +135,7 @@ struct FinalResultOverlayViewTB: View {
                       //  gl.temporaryLockTransitionLevel = false
                         
                     } label: {
-                        Text("Play Again")
+                        Text("Continue")
                             .padding()
                             .background(Color.yellow)
                             .cornerRadius(sizing.cornerRadiusPlayAgain)

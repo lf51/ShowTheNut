@@ -153,7 +153,7 @@ struct BestScoreOverlayViewTB: View {
                       //  gl.temporaryLockTransitionLevel = false
                         
                     } label: {
-                        Text("Save & Play Again")
+                        Text("Play Again")
                             .padding()
                             .background(Color.yellow)
                             .cornerRadius(sizing.cornerRadiusPlayAgain)

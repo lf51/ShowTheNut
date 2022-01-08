@@ -187,7 +187,7 @@ class GameAction: ObservableObject {
          if self.rebuyCount < self.bankroll {
              
              self.rebuyCount = self.bankroll
-             self.saveScoreOnFirebase() // Salviamo il valore sul firebase qui, per limitare le chiamate in scrittura solo quando il valore corrente è effettivamente maggiore del precedente
+             self.saveScoreOnFirebase() // Salviamo qui su FireBase, perchè se lo mettiamo insieme al SaveOnGameKit rischiamo di sovrascrivere un punteggio più alto. Qui verrà salvato solo se effettivamente più alto.
          }
          
      }
@@ -273,7 +273,7 @@ class GameAction: ObservableObject {
            // saveForAdsShow()
             return
         }
-        saveScoresOnGameKit()
+       self.saveScoresOnGameKit()
       //  saveForAdsShow()
         print("saveScores Overrided completamente")
      }
