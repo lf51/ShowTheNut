@@ -15,6 +15,11 @@ import Firebase
  - Gestire dati di ogni livello su Firebase - √Fatto
  - Connettere tutto con Firebase - Classifica unica su GameKit - √Fatto
  
+ 
+ --- Abbiamo cambiato il bundleID da TexasHoldem a ShowTheNut, occorre cambiarlo anche su Firebase e sostituire il googlePlist. Al momento il firebase funziona con la versione precedente che ho installata sul telefono --- √ RISOLTO --> sullo stesso progetto abbiamo caricato anche quest'altro bundle
+ 
+ --- Dopo diversi tentativi abbandoniamo la pubblicazione su APPStore perchè nonostante il bundle nuovo e tutta la procedura da zero sostengono che trattasi di gioco d'azzardo simulato. Possiamo provare a tradurla per Android, o sfruttare l'algoritmo per creare un altro gioco ---
+ 
  */
 
 @main
